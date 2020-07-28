@@ -3,6 +3,7 @@ package com.example.a2020project;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +31,12 @@ public class MainActivity extends AppCompatActivity {
         final TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager(), 3);
         viewPager.setAdapter(tabAdapter);
 
-        //탭 선택 이벤트
+        // 로그인 인텐트
+        Intent intent = new Intent(this.getIntent());
+        String loginIntent = intent.getStringExtra("login");
+        //Toast.makeText(getApplicationContext(), loginIntent, Toast.LENGTH_SHORT);
+
+        // 탭 선택 이벤트
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override

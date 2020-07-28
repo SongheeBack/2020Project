@@ -29,10 +29,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
 
-                Toast.makeText(getApplicationContext(),"로그인 기능 임시 구현 무조건 성공", Toast.LENGTH_SHORT);
+                //Toast.makeText(getApplicationContext(),"로그인 기능 임시 구현 무조건 성공", Toast.LENGTH_SHORT);
 
-                //intent.putExtra("userID", userId.getText().toString());
+                intent.putExtra("login", "로그인 기능 임시 구현 무조건 성공");
 
             }
         });
