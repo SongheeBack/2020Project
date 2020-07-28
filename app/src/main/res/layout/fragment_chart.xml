@@ -5,93 +5,29 @@
     android:layout_height="match_parent"
     tools:context=".Chart.Chart">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Device: "
-                android:textSize="14dp"/>
-
-            <Spinner
-                android:id="@+id/spinner_device"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Data Type: "
-                android:textSize="14dp" />
-
-            <Spinner
-                android:id="@+id/spinner_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/maximum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="최고값: "/>
-
-                <TextView
-                    android:id="@+id/minimum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="최저값: "/>
-
-                <TextView
-                    android:id="@+id/average"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="평균: "/>
-
-                <TextView
-                    android:id="@+id/deviation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="표준편차: "/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1" >
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/period"
-                    android:text="데이터 조회 기간 "/>
+                    android:text="Device: "
+                    android:textSize="14dp"/>
 
                 <Spinner
-                    android:id="@+id/spinner_period"
+                    android:id="@+id/spinner_device"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -99,24 +35,91 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/numOfData"
-                    android:text="데이터 갯수: "/>
+                    android:text="Data Type: "
+                    android:textSize="14dp" />
 
-                <Button
-                    android:layout_width="match_parent"
+                <Spinner
+                    android:id="@+id/spinner_data"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="조회"
-                    android:id="@+id/check"/>
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_weight="1" >
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/period"
+                        android:text="데이터 조회 기간 설정"/>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="조회"
+                        android:id="@+id/check"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/maximum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최고값: "/>
+
+                    <TextView
+                        android:id="@+id/minimum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최저값: "/>
+
+                    <TextView
+                        android:id="@+id/average"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="평균: "/>
+
+                    <TextView
+                        android:id="@+id/deviation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="표준편차: "/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/numOfData"
+                        android:text="데이터 갯수: "/>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
+
         </LinearLayout>
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="400dp" />
-
-    </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
