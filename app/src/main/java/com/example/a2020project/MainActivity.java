@@ -3,6 +3,7 @@ package com.example.a2020project;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,10 +15,15 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Context mContext;
+    String mJsonString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mContext = this;
 
         //Tablayout
         TabLayout tabs = (TabLayout) findViewById(R.id.tab_layout);
@@ -34,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         // 로그인 인텐트
         Intent intent = new Intent(this.getIntent());
         String loginIntent = intent.getStringExtra("login");
+
         //Toast.makeText(getApplicationContext(), loginIntent, Toast.LENGTH_SHORT);
+
 
         // 탭 선택 이벤트
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
@@ -89,5 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
 
