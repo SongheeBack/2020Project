@@ -71,5 +71,4 @@ public class MonitorListviewAdapter extends BaseAdapter {
 
         monitorListviewlist.add(listviewItem);
     }
-
 }
