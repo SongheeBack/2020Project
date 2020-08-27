@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="데이터 조회"
-            android:id="@+id/tv1"
             android:layout_gravity="top" />
 
         <ListView
