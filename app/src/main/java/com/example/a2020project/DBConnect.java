@@ -1,5 +1,6 @@
 package com.example.a2020project;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -43,8 +44,8 @@ public class DBConnect {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            //progressDialog = ProgressDialog.show(getActivity().getApplicationContext(),
-            //        "Please Wait", null, true, true);
+           /* progressDialog = ProgressDialog.show(MainActivity.mContext.getApplicationContext(),
+                    "Please Wait", null, true, true);*/
         }
 
 

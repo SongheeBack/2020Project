@@ -1,8 +1,8 @@
 package com.example.a2020project.monitor;
 
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,28 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.a2020project.DBConnect;
-import com.example.a2020project.MainActivity;
 import com.example.a2020project.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
 
@@ -43,6 +31,9 @@ import static android.content.ContentValues.TAG;
 public class Monitor extends Fragment {
 
     String mJsonString;
+    String user_level;
+    //ArrayList<String> device_ID;
+    String device_ID;
     ListView listview;
     MonitorListviewAdapter mAdapter;
 
@@ -71,12 +62,34 @@ public class Monitor extends Fragment {
         // 리스트뷰 참조 및 Adapter달기
         listview = view.findViewById(R.id.monitorListview);
 
+        Intent intent = getActivity().getIntent();
+        user_level = intent.getStringExtra("user_level");
+        Log.d("레벨: ", user_level);
+
+
         try{
 
-            DBConnect DBcon = new DBConnect();
-           // DBConnect.GetData db = DBcon.new GetData();
-            //mJsonString = db.execute("select device_level from device", "1").get();
-            showResult();
+            //DBConnect DBcon = new DBConnect();
+            // DBConnect.GetData db = DBcon.new GetData();
+            // mJsonString = db.execute("select device_level from device", "1").get();
+
+            DBConnect.GetData dbcon_Monitor1 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                @Override
+                public void processFinish(String result) {
+                    //device_ID.add(result);
+                    device_ID = result;
+                    Log.d("dbcon_Monitor1 되나...: ", device_ID);
+                }
+            }).execute("select device_ID from device where device_level =" + user_level, "1");
+
+            /*DBConnect.GetData dbcon_Monitor2 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                @Override
+                public void processFinish(String result) {
+                    device_ID = result;
+                    Log.d("dbcon_Monitor1 되나...: ", device_ID);
+                }
+            }).execute("SELECT DISTINCT log_date FROM log WHERE device_ID = '"+ device_ID +"' order by log_date desc", "1");*/
+
 
         } catch (Exception e) {
             e.printStackTrace();

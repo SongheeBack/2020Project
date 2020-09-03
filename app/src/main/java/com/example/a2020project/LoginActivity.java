@@ -113,9 +113,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void runActivity(){
         String level = user_level;
+        String intLevel = level.replaceAll("[^0-9]", "");
+        Log.d("숫자만 나오나? ", intLevel);
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        //intent.putExtra("user_level", level);
+        intent.putExtra("user_level", intLevel);
         startActivity(intent);
         finish();
 
