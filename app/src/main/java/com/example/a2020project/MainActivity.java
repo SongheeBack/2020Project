@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +17,6 @@ import com.google.android.material.tabs.TabLayout;
 public class MainActivity extends AppCompatActivity {
 
     public static Context mContext;
-    String mJsonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         // 로그인 인텐트
         Intent intent = new Intent(this.getIntent());
-        String loginIntent = intent.getStringExtra("login");
-
-        //Toast.makeText(getApplicationContext(), loginIntent, Toast.LENGTH_SHORT);
-
+        //String user_level = intent.getStringExtra("user_level");
+        //Log.d("레벨 ", user_level);
 
         // 탭 선택 이벤트
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));

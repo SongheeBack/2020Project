@@ -42,13 +42,6 @@ import static android.content.ContentValues.TAG;
  */
 public class Monitor extends Fragment {
 
-    /*private static String TAG_Query = "";
-    private static final String TAG_JSON="webnautes";
-    private static final String TAG_ID = "device_id";
-    private static final String TAG_NAME = "device_name";
-    private static final String TAG_DATA = "data";*/
-
-    ArrayList<HashMap<String, String>> mArrayList;
     String mJsonString;
     ListView listview;
     MonitorListviewAdapter mAdapter;
@@ -81,8 +74,8 @@ public class Monitor extends Fragment {
         try{
 
             DBConnect DBcon = new DBConnect();
-            DBConnect.GetData db = DBcon.new GetData();
-            mJsonString = db.execute("select device_ID, device_name from device", "2").get();
+           // DBConnect.GetData db = DBcon.new GetData();
+            //mJsonString = db.execute("select device_level from device", "1").get();
             showResult();
 
         } catch (Exception e) {
