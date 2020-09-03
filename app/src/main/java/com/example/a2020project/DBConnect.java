@@ -1,5 +1,6 @@
 package com.example.a2020project;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -11,16 +12,32 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static android.content.ContentValues.TAG;
+import static android.os.AsyncTask.Status.FINISHED;
 
 
 public class DBConnect {
 
-    String mJsonString;
+    String mJsonString1;
 
-    public class GetData extends AsyncTask<String, Void, String> {
+    /*public interface AsyncResponse {
+        void processFinish(String result);
+    }*/
+
+    public static class GetData extends AsyncTask<String, Void, String> {
 
         //ProgressDialog progressDialog;
         String errorString = null;
+        String mJsonString;
+
+        public interface AsyncResponse {
+            void processFinish(String result);
+        }
+
+        private AsyncResponse delegate = null;
+
+        public GetData (AsyncResponse asyncResponse) {
+            delegate = asyncResponse;//Assigning call back interfacethrough constructor
+        }
 
         @Override
         protected void onPreExecute() {
@@ -36,18 +53,24 @@ public class DBConnect {
             super.onPostExecute(result);
 
             //progressDialog.dismiss();
-
+            mJsonString = result;
             Log.w(TAG, "response - " + result);
 
-            if (result == null){
+            if(delegate != null){
+                delegate.processFinish(result);
+            }
+
+            /*if (result == null){
 
                 //mTextViewResult.setText(errorString);
             }
             else {
-
                 mJsonString = result;
+                Log.w("JsonString: ", mJsonString);
+                Log.w("dbConStatus: ", DBConnect.this.getStatus());
+                //getResult();
 
-            }
+            }*/
         }
 
 
@@ -117,5 +140,26 @@ public class DBConnect {
         }
 
     }
+
+    /*public String getResult(){
+        String res = mJsonString;
+        Log.w("getResult: ", "dbCon 결과" + res);
+        return res;
+    }
+
+    /*public String getStatus(){
+        String Fin = "Finished";
+        String Run = "Ruuning";
+        String status = DBConnect.this.getStatus();
+
+        if(status.equals(FINISHED)){
+            Log.w("getStatus: ", status);
+            return Fin;
+        }
+        else {
+            Log.w("getStatus: ", status);
+            return Run;
+        }
+    }*/
 
 }
