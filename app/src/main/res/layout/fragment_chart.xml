@@ -23,8 +23,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Device: "
-                    android:textSize="14dp"/>
+                    android:text="Device: " />
 
                 <Spinner
                     android:id="@+id/spinner_device"
@@ -35,11 +34,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data Type: "
-                    android:textSize="14dp" />
+                    android:text="Data Type: " />
 
                 <Spinner
-                    android:id="@+id/spinner_data"
+                    android:id="@+id/spinner_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -49,93 +47,189 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:layout_marginBottom="10dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_deviceName"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:gravity="center"
+                    android:text="조회할 기기를 선택해주세요."/>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/startD"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YYMMDD" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_dataType"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" ~ " />
+            </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/endD"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YYMMDD" />
-
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/check"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="조회" />
-
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="조회 시작 시점" />
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/startDate"
+                            android:focusableInTouchMode="false"
+                            android:hint="YYYY-MM-DD"
+                            android:layout_weight="1"/>
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/startTime"
+                            android:focusableInTouchMode="false"
+                            android:hint="HH:MM:SS"
+                            android:layout_weight="1"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:text="조회 종료 시점" />
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:focusableInTouchMode="false"
+                            android:id="@+id/endDate"
+                            android:hint="YYYY-MM-DD"/>
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:focusableInTouchMode="false"
+                            android:id="@+id/endTime"
+                            android:hint="HH:MM:SS"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/chart_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="조회" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:weightSum="3"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/maximum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:layout_marginTop="5dp"
                         android:text="최고값: " />
-
-                    <TextView
-                        android:id="@+id/minimum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="최저값: " />
 
                     <TextView
                         android:id="@+id/average"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:layout_marginTop="5dp"
                         android:text="평균: " />
-
-                    <TextView
-                        android:id="@+id/deviation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="표준편차: " />
 
                     <TextView
                         android:id="@+id/numOfData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:layout_marginTop="5dp"
                         android:text="데이터 갯수: " />
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/minimum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:layout_marginTop="5dp"
+                        android:text="최저값: " />
+
+
+                    <TextView
+                        android:id="@+id/deviation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:layout_marginTop="5dp"
+                        android:text="표준편차: " />
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
+                android:layout_height="458dp" />
 
         </LinearLayout>
 

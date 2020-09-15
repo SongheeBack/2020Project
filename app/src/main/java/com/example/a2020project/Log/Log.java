@@ -13,30 +13,139 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.a2020project.DBConnect;
+import com.example.a2020project.MainActivity;
 import com.example.a2020project.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class Log extends Fragment {
 
+    Context mContext;
     static final int ACT_SET_BIRTH = 1;
+    ArrayList<String> device_ID = new ArrayList<>();
+    HashMap<String, String> dName = new HashMap<>();
+    ArrayList<String> deviceName = new ArrayList<>();
+    ArrayList<String> unitArr = new ArrayList<>();
+
+    Spinner spinner_type;
+    TextView tv_dataType;
+    ArrayAdapter<String> stAdapter;
+
+    int id_pos;
+    String nameCh;
+    String typeCh;
+
+    String startD;
+    String startT;
+    String endD;
+    String endT;
+
+    ListView listview1;
+    LogListviewAdapter adapter1;
 
     public Log() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_log, null) ;
+        View view = inflater.inflate(R.layout.fragment_log, null) ;
+
+        mContext = MainActivity.mContext;
+
+        device_ID.clear();
+        dName.clear();
+        deviceName.clear();
+
+        id_pos = 0;
+        nameCh = null;
+        typeCh = null;
+        startD = null;
+        startT= null;
+        endD = null;
+        endT = null;
+
+        device_ID = ((MainActivity)getActivity()).getDevice_ID();
+        //android.util.Log.d("로그~~id:: ", String.valueOf(device_ID));
+        dName = ((MainActivity)getActivity()).getDevice_Name();
+        //android.util.Log.d("로그~~name:: ", String.valueOf(dName));
+
+        unitArr.add("데이터 타입");
+
+        for(int i = 0; i<device_ID.size(); i++){
+            String name;
+            name = dName.get(device_ID.get(i));
+            //android.util.Log.d("deviceID i:: ", String.valueOf(i));
+            deviceName.add(name);
+            android.util.Log.d("deviceName:: ", String.valueOf(deviceName));
+        }
+
+        Spinner spinner_device = view.findViewById(R.id.spinner_device);
+        spinner_type = view.findViewById(R.id.spinner_data);
+
+        final TextView tv_deviceName = view.findViewById(R.id.tv_deviceName);
+        tv_dataType = view.findViewById(R.id.tv_dataType);
+
+        ArrayAdapter<String> sdAdapter = new ArrayAdapter<String>(MainActivity.mContext, R.layout.support_simple_spinner_dropdown_item, deviceName);
+        spinner_device.setAdapter(sdAdapter);
+
+
+        spinner_device.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                tv_deviceName.setText("선택된 기기: " + deviceName.get(position).toString());
+                id_pos = position;
+                nameCh = deviceName.get(position).toString();
+
+                stAdapter = new ArrayAdapter<String>(MainActivity.mContext, R.layout.support_simple_spinner_dropdown_item, unitArr);
+                spinner_type.setAdapter(stAdapter);
+
+                setTypeSpinner(nameCh);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+
+        spinner_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                tv_dataType.setText("조회할 데이터: "+ unitArr.get(position));
+                typeCh = unitArr.get(position);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+        });
+
         final StringBuilder startDate = new StringBuilder();
         final StringBuilder endDate = new StringBuilder();
         final StringBuilder startTime = new StringBuilder();
@@ -62,8 +171,8 @@ public class Log extends Fragment {
             DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener(){
                 @Override
                 public void onDateSet(DatePicker dview, int year, int month, int dayOfMonth) {
-                    TextView tv = (TextView)view.findViewById(R.id.editTextDate1);
-                    tv.setText(String.format("%d-%d-%d", year, month+1, dayOfMonth));
+                    //TextView tv = (TextView)view.findViewById(R.id.editTextDate1);
+                    tv[0].setText(String.format("%d-%d-%d", year, month+1, dayOfMonth));
                     startDate.setLength(0);
                     startDate.append(Integer.toString(year)).append(Integer.toString(month+1)).append(Integer.toString(dayOfMonth));
                 }
@@ -80,8 +189,8 @@ public class Log extends Fragment {
             DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener(){
                 @Override
                 public void onDateSet(DatePicker dview, int year, int month, int dayOfMonth) {
-                    TextView tv = (TextView)view.findViewById(R.id.editTextDate2);
-                    tv.setText(String.format("%d-%d-%d", year, month+1, dayOfMonth));
+                    //TextView tv = (TextView)view.findViewById(R.id.editTextDate2);
+                    tv[1].setText(String.format("%d-%d-%d", year, month+1, dayOfMonth));
                     endDate.setLength(0);
                     endDate.append(Integer.toString(year)).append(Integer.toString(month+1)).append(Integer.toString(dayOfMonth));
                 }
@@ -99,7 +208,7 @@ public class Log extends Fragment {
                 mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        tv[2].setText(selectedHour + "시 " + selectedMinute + "분");
+                        tv[2].setText(selectedHour + ":" + selectedMinute + ":00");
                         startTime.append(Integer.toString(selectedHour)).append(Integer.toString(selectedMinute));
                     }
                 }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
@@ -119,7 +228,7 @@ public class Log extends Fragment {
                 mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        tv[3].setText(selectedHour + "시 " + selectedMinute + "분");
+                        tv[3].setText(selectedHour + ":" + selectedMinute + ":00");
                         endTime.append(Integer.toString(selectedHour)).append(Integer.toString(selectedMinute));
                     }
                 }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
@@ -128,76 +237,110 @@ public class Log extends Fragment {
             }
         });
 
-        // Inflate the layout for this fragment
-        ListView listview1;
-        ListView listview2;
-        ListView listview3;
-        LogListviewAdapter adapter1;
-        LogListviewAdapter adapter2;
-        LogListviewAdapter adapter3;
-
-        // Adapter 생성
-        adapter1 = new LogListviewAdapter();
-        adapter2 = new LogListviewAdapter();
-        adapter3 = new LogListviewAdapter();
-
-        // 리스트뷰 참조 및 Adapter 닫기
         listview1 = view.findViewById(R.id.listView1);
-        listview2 = view.findViewById(R.id.listView2);
-        listview3 = view.findViewById(R.id.listView3);
+        adapter1 = new LogListviewAdapter();
+        //listview1.setAdapter(adapter1);
 
+        Button log_btn = view.findViewById(R.id.log_button);
+        log_btn.setOnClickListener(new View.OnClickListener() {
 
-        listview1.setAdapter(adapter1);
-        listview2.setAdapter(adapter2);
-        listview3.setAdapter(adapter3);
-
-        // 첫 번째 아이템 추가
-        adapter1.addItem("Box", "Account Box black 36dp");
-        adapter2.addItem("Box", "Account Box black 36dp");
-        adapter3.addItem("Box", "Account Box black 36dp");
-        // 두 번째 아이템 추가
-        adapter1.addItem("Circle", "Account Circle black 36dp");
-        adapter2.addItem("Circle", "Account Circle black 36dp");
-        adapter3.addItem("Circle", "Account Circle black 36dp");
-        // 세 번째 아이템 추가
-        adapter1.addItem("Ind", "Account Ind black 36dp");
-        adapter2.addItem("Ind", "Account Ind black 36dp");
-        adapter3.addItem("Ind", "Account Ind black 36dp");
-
-
-        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // get item
-                LogListview item = (LogListview) parent.getItemAtPosition(position);
+            public void onClick(View v) {
 
-                String titleStr = item.getTitleStr();
-                String descStr = item.getDescStr();
+                adapter1.clear();
+
+                startD = tv[0].getText().toString();
+                endD = tv[1].getText().toString();
+                startT = tv[2].getText().toString();
+                endT = tv[3].getText().toString();
+
+                if(startD != null & endD != null & startT != null & endT != null){
+
+                    String sDate = startD + " " + startT;
+                    String eDate = endD + " " + endT;
+
+                    getLogData(sDate, eDate, nameCh, typeCh);
+
+                }
             }
         });
 
-
-        listview2.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // get item
-                LogListview item = (LogListview) parent.getItemAtPosition(position);
-
-                String titleStr = item.getTitleStr();
-                String descStr = item.getDescStr();
-            }
-        });
-
-       /* listview3.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // get item
-                ListViewItem item = (ListViewItem) parent.getItemAtPosition(position);
-
-                String titleStr = item.getTitleStr();
-                String descStr = item.getDescStr();
-            }
-        }); */
         return view;
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    public void setTypeSpinner(String name){
+
+        String id = null;
+
+        for(String key : dName.keySet()){
+            if(name.equals(dName.get(key))){
+                id = key;
+            }
+        }
+        unitArr.clear();
+
+        stAdapter = new ArrayAdapter<String>(MainActivity.mContext, R.layout.support_simple_spinner_dropdown_item, unitArr);
+        spinner_type.setAdapter(stAdapter);
+
+        unitArr = ((MainActivity)getActivity()).getDataType_Sp(id);
+        stAdapter.notifyDataSetChanged();
+
+        if(stAdapter.getCount()!=0 && stAdapter!=null){
+            stAdapter.clear();
+        }
+
+        for(int i = 0; i<unitArr.size(); i++){
+            stAdapter.add(unitArr.get(i));
+        }
+
+    }
+
+    public void getLogData(String sD, String eD, String nameCh, final String typeCh){
+
+        String id = ((MainActivity)getActivity()).findIdByName(nameCh);
+        String idx = ((MainActivity)getActivity()).findIdxByUnit(id, typeCh);
+        //android.util.Log.d("name, type: ", nameCh + ", " + typeCh);
+
+        if(idx != null){
+            DBConnect.GetData dbLog1 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                @Override
+                public void processFinish(String result) {
+                    //android.util.Log.d("dbLog1되나...: ", result);
+
+                    if (result.equals("[]")) {
+                        Toast.makeText(mContext, "해당 기간에 조회 가능한 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        try {
+                            JSONArray restArr = new JSONArray(result);
+                            for(int i=0;i<restArr.length();i++){
+
+                                JSONArray item = restArr.getJSONArray(i);
+                                String date = item.getString(0);
+                                String value = item.getString(1);
+
+                                String valueUnit = value + " " + typeCh;
+
+                                adapter1.addItem(valueUnit, date);
+                                listview1.setAdapter(adapter1);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).execute("select DISTINCT date_format(log_date,'%y-%m-%d %H:%i:%s') as log_date, log_value from log " +
+                    "where device_ID = " + '"' + id + '"' + " and log_index = " + '"' + idx + '"' +
+                    " and log_date between "+ '"' + sD + '"' + " and" + '"' + eD + '"' + " order by log_date desc", "2");
+
+        }
+
+    }
+
 }

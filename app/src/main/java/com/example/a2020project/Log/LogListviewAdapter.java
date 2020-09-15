@@ -37,15 +37,15 @@ public class LogListviewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)로부터 위젯에 대한 참조 획득
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1);
-        TextView descTextView = (TextView) convertView.findViewById(R.id.textView2);
+        TextView LogData = (TextView) convertView.findViewById(R.id.textView1);
+        TextView LogDataInform = (TextView) convertView.findViewById(R.id.textView2);
 
         // Data set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         LogListview listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        titleTextView.setText(listViewItem.getTitleStr());
-        descTextView.setText(listViewItem.getDescStr());
+        LogData.setText(listViewItem.getlogData());
+        LogDataInform.setText(listViewItem.getlogDataInform());
 
         return convertView;
     }
@@ -63,13 +63,17 @@ public class LogListviewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능
-    public void addItem(String title, String desc){
+    public void addItem(String data, String inform){
         LogListview item = new LogListview();
 
-        item.setTitleStr(title);
-        item.setDescStr(desc);
+        item.setlogData(data);
+        item.setlogDataInform(inform);
 
         listViewItemList.add(item);
+    }
+
+    public void clear(){
+        listViewItemList.clear();
     }
 
 }

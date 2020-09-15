@@ -6,194 +6,156 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Log.Log">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_marginBottom="40dp">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:text="Device"
-            android:textSize="24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/button"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/spinner1"
-            app:layout_constraintTop_toTopOf="@+id/button" />
-
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="200dp"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:hint="select a device"
-            app:layout_constraintBottom_toBottomOf="@+id/button"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintLeft_toRightOf="@+id/textView"
-            app:layout_constraintRight_toLeftOf="@+id/button"
-            app:layout_constraintTop_toTopOf="@+id/button" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="조회"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintLeft_toRightOf="@+id/spinner1"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/editTextDate1"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="YYYYMMDD"
-            android:inputType="date"
-            app:layout_constraintRight_toLeftOf="@+id/editTextTime1"
-            app:layout_constraintStart_toStartOf="@+id/spinner1"
-            app:layout_constraintTop_toTopOf="@+id/editTextTime1"
-            android:focusableInTouchMode="false"/>
-
-        <EditText
-            android:id="@+id/editTextTime1"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="HHMMSS"
-            android:inputType="time"
-            app:layout_constraintEnd_toEndOf="@+id/button"
-            app:layout_constraintLeft_toRightOf="@+id/editTextDate1"
-            app:layout_constraintTop_toBottomOf="@+id/button"
-            android:focusableInTouchMode="false"/>
-
-        <EditText
-            android:id="@+id/editTextDate2"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ems="10"
-            android:hint="YYYYMMDD"
-            android:inputType="date"
-            app:layout_constraintRight_toLeftOf="@+id/editTextTime2"
-            app:layout_constraintStart_toStartOf="@+id/spinner1"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate1"
-            android:focusableInTouchMode="false"/>
-
-        <EditText
-            android:id="@+id/editTextTime2"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ems="10"
-            android:hint="HHMMSS"
-            android:inputType="time"
-            app:layout_constraintEnd_toEndOf="@+id/button"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTime1"
-            android:focusableInTouchMode="false"/>
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="From"
-            android:textSize="24dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextDate1"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="@+id/editTextDate1" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="To"
-            android:textSize="24dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextDate2"
-            app:layout_constraintEnd_toEndOf="@+id/textView4"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate1" />
-
         <LinearLayout
-            android:id="@+id/linearView1"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_margin="5dp"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/linearView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView5">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="데이터1" />
-
-            <ListView
-                android:id="@+id/listView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="9"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearView2"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_margin="5dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/linearView1"
-            app:layout_constraintLeft_toRightOf="@+id/linearView1"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearView1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="데이터2" />
+                android:text="Device: "/>
 
-            <ListView
-                android:id="@+id/listView2"
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/spinner_device"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="9"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearView3"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_margin="5dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@+id/linearView1"
-            app:layout_constraintStart_toStartOf="@+id/linearView1"
-            app:layout_constraintTop_toBottomOf="@+id/linearView1">
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="데이터3" />
+                android:text="Data Type: "/>
 
-            <ListView
-                android:id="@+id/listView3"
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/spinner_data"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="9"/>
+                android:layout_weight="1" />
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_deviceName"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="조회할 기기를 선택해주세요."/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_dataType"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="조회 시작 시점" />
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/editTextDate1"
+                        android:focusableInTouchMode="false"
+                        android:hint="YYYY-MM-DD"
+                        android:layout_weight="1"/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/editTextTime1"
+                        android:focusableInTouchMode="false"
+                        android:hint="HH:MM:SS"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:text="조회 종료 시점" />
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:focusableInTouchMode="false"
+                        android:id="@+id/editTextDate2"
+                        android:hint="YYYY-MM-DD"/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:focusableInTouchMode="false"
+                        android:id="@+id/editTextTime2"
+                        android:hint="HH:MM:SS"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/log_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="조회" />
+
+        </LinearLayout>
+
+
+        <ListView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listView1"/>
+
+    </LinearLayout>
+
 
 </FrameLayout>

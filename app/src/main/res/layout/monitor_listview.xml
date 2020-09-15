@@ -7,6 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:gravity="start"
         android:textStyle="bold"
         android:id="@+id/monitorDeviceName"/>
@@ -14,6 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/monitorData" />
+        android:layout_marginLeft="10dp"
+        android:id="@+id/monitorDataP" />
 
 </LinearLayout>

@@ -1,20 +1,22 @@
 package com.example.a2020project.Log;
 
 public class LogListview {
-    private String titleStr;
-    private String descStr;
+    private String logData;
+    private String logDataInform;
 
-    public void setDescStr(String descStr) {
-        this.descStr = descStr;
+
+    public void setlogData(String data) {
+        this.logData = data;
     }
-    public void setTitleStr(String titleStr) {
-        this.titleStr = titleStr;
+    public void setlogDataInform(String inform) {
+        this.logDataInform = inform;
     }
 
-    public String getDescStr() {
-        return descStr;
+    public String getlogData() {
+        return logData;
     }
-    public String getTitleStr() {
-        return titleStr;
+    public String getlogDataInform() {
+        return logDataInform;
     }
+
 }

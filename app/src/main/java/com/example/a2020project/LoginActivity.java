@@ -1,7 +1,6 @@
 package com.example.a2020project;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +9,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -20,9 +26,19 @@ public class LoginActivity extends AppCompatActivity {
     String ID, PW;
     String user_level;
     String user_exist;
-    String resultString;
+    String device_ID_string;
+    String ERROR = "result error";
+    String NOT_EXIST_INDEX = "로그 인덱스 없음";
+
+    int cnt;
+    int cnt_2;
 
     DBConnect DBcon = new DBConnect();
+
+    ArrayList<HashMap> cArrayList = new ArrayList<>();
+    HashMap<String,String> hashMap_idIdx = new HashMap<>();
+    HashMap<String,HashMap<String,String>> hashMap_idIdxUnit = new HashMap<>();
+    HashMap<String,String> dName = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -30,12 +46,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
 
+        hashMap_idIdx.clear();
+        hashMap_idIdxUnit.clear();
+        dName.clear();
+
+
         userId = findViewById(R.id.loginId);
         userPw = findViewById(R.id.loginPassword);
         loginBtn = findViewById(R.id.loginButton);
 
-//        ID = userId.getText().toString();
-//        PW = userPw.getText().toString();
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,18 +70,10 @@ public class LoginActivity extends AppCompatActivity {
                         DBConnect.GetData dbcon = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
                             @Override
                             public void processFinish(String result) {
+                                //Log.d("dbcon되나..: ", result);
                                 user_exist = result;
-                                Log.d("dbcon되나..: ", user_exist);
                                 if (user_exist.equals("["+"["+'"'+"1"+'"'+"]"+"]")){
-
-                                    DBConnect.GetData dbcon2 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
-                                        @Override
-                                        public void processFinish(String result) {
-                                            user_level = result;
-                                            Log.d("dbcon2되나...: ", user_level);
-                                            runActivity();
-                                        }
-                                    }).execute("select user_level FROM user WHERE user_ID = " + '"' + ID + '"' + "and user_PW = " +  '"' + PW + '"', "1");
+                                    getUserData();
                                 }
                                 else{
                                     Toast.makeText(getApplicationContext(), "아이디, 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
@@ -70,37 +81,11 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }).execute("SELECT EXISTS (SELECT * FROM user WHERE user_ID = " + '"' + ID + '"' + "and user_PW = " +  '"' + PW + '"' + ") as success", "1");
 
-                        //DBConnect DBcon = new DBConnect();
-                        //DBConnect.GetData db = new DBConnect.GetData();
-
-                        //get으로 되는지 확인해야함
-                        /*db.execute("SELECT EXISTS (SELECT * FROM user WHERE user_ID = " + '"' + ID + '"' + "and user_PW = " +  '"' + PW + '"' + ") as success", "1");
-                        //user_exist = DBcon.getResult();
-                        Log.d("진행1", user_exist);
-
-                        while (db.getStatus().equals(Fin)){
-                            user_exist = DBcon.getResult();
-                            Log.d("진행2", user_exist);
-                            if (user_exist.equals("["+"["+'"'+"1"+'"'+"]"+"]")){
-                                db.execute("select user_level FROM user WHERE user_ID = " + '"' + ID + '"' + "and user_PW = " +  '"' + PW + '"', "1");
-                                user_level = DBcon.getResult();
-                                Log.d("레벨11: ", user_level);
-                                runActivity();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(), "아이디, 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
-                            }
-                        }*/
-                        /*else{
-                            Log.d("111111111", "으니ㅏ으린으리ㅏ느");
-                        }*/
-
-                        //showResult();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    Log.d("아이디 비번 확인: ", ID + " / "+ PW);
+                    //Log.d("아이디 비번 확인: ", ID + " / "+ PW);
                 }
 
                 else{
@@ -112,16 +97,205 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void runActivity(){
-        String level = user_level;
-        String intLevel = level.replaceAll("[^0-9]", "");
-        Log.d("숫자만 나오나? ", intLevel);
+
+        //Log.d("runAct:: ", "되나?");
+        //Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra("user_level", intLevel);
+        //intent.putExtra("device_ID", device_ID_string);
+        intent.putExtra("logIndexArray", cArrayList);
+        intent.putExtra("deviceName", dName);
+        intent.putExtra("idIdxUnit", hashMap_idIdxUnit);
         startActivity(intent);
         finish();
 
-        Toast.makeText(getApplicationContext(), "사용자: " + ID + "Level: " + level, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "사용자: " + ID + "Level: " + user_level, Toast.LENGTH_SHORT).show();
+    }
+
+    private void getUserData(){
+        DBConnect.GetData dbcon2 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+            @Override
+            public void processFinish(String result) {
+
+                //Log.d("dbcon2되나...: ", result);
+                user_level = result;
+
+                String level = user_level;
+                String intLevel = level.replaceAll("[^0-9]", "");
+                //Log.d("숫자만 나오나? ", intLevel);
+
+                getDeviceData(intLevel);
+            }
+        }).execute("select user_level FROM user WHERE user_ID = " + '"' + ID + '"' + "and user_PW = " +  '"' + PW + '"', "1");
+    }
+
+    private void getDeviceData(String intLevel){
+        DBConnect.GetData dbcon3 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+            @Override
+            public void processFinish(String result) {
+                //Log.d("dbcon3 되나...: ", result);
+                device_ID_string = result;
+                getIndex();
+
+            }
+        }).execute("select device_ID from device where device_level <=" + '"' + intLevel + '"', "1");
+    }
+
+    public void getIndex(){
+
+        try {
+
+            JSONArray device_ID = new JSONArray(device_ID_string);
+            final int length = device_ID.length();
+            for(int i = 0; i< device_ID.length(); i++){
+
+                JSONArray item = device_ID.getJSONArray(i);
+                final String id = item.getString(0);
+                //Log.d("id값이 뭐지:: ", id);
+                DBConnect.GetData getIndex = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                    @Override
+                    public void processFinish(String result) {
+                        Log.d("Login/getIndex 되나...: ", id+"/"+result);
+
+                        String res = result;
+                        if(res.equals(ERROR)){
+                            Log.w("Log Index Error: ", NOT_EXIST_INDEX);
+                        }
+                        else{
+                            //Log.d("res: ", res);
+                            hashMap_idIdx.put(id, res);
+                            //Log.d("hashMap Id Name: ", String.valueOf(hashMap_idIdx));
+                            cnt = 1;
+                            DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                                @Override
+                                public void processFinish(String result) {
+                                    //Log.d("Login/getDName 되나...: ", id+"/"+result);
+
+                                    String name;
+                                    try {
+                                        JSONArray restArr = new JSONArray(result);
+                                        for(int i=0;i<restArr.length();i++){
+
+                                            JSONArray item = restArr.getJSONArray(i);
+                                            name = item.getString(0);
+                                            dName.put(id, name);
+
+                                            if(cnt == length){
+                                                comArrayList(hashMap_idIdx);
+                                                //Log.d("length_cnt: ", String.valueOf(cnt));
+                                            }
+                                            else { cnt++; } }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");
+                        }
+                    }
+                }).execute("SELECT DISTINCT log_index FROM log WHERE device_ID = " + '"' + id + '"', "1");
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void comArrayList(final HashMap<String, String> hashMap) {
+        cArrayList.clear();
+        cArrayList.add(hashMap);
+        //Log.d("cArrayList::: ", String.valueOf(cArrayList));
+
+        final HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> str = cArrayList.get(0);
+        final int length = str.keySet().size();
+
+        ArrayList<String> keyset = new ArrayList<>();
+        keyset.clear();
+        cnt_2 = 1;
+
+        Iterator<String> keys = str.keySet().iterator();
+        while(keys.hasNext()){
+            final String key = keys.next();
+            keyset.add(key);
+        }
+
+        if(keyset.size() > 0){
+           // Log.d("keySetArr: ", String.valueOf(keyset));
+
+            for(int i = 0; i<keyset.size(); i++){
+
+                //Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
+                final String key = keyset.get(i);
+                String Idx = str.get(keyset.get(i));
+                //Log.d("Idx: ", Idx);
+
+                try {
+                    JSONArray idxArr = new JSONArray(Idx);
+                    //Log.d("idxArr length: ", String.valueOf(idxArr.length()));
+
+                    for(int j = 0; j<idxArr.length(); j++){
+                        final int z = j;
+
+                        final int idxArrL = idxArr.length();
+                        //Log.d("idxArrL: ", String.valueOf(idxArrL));
+
+
+                        JSONArray item = idxArr.getJSONArray(j);
+                        //Log.d("item: ", String.valueOf(item));
+
+                        final String idx = item.getString(0);
+                        //Log.d("idx: ", String.valueOf(idx));
+                        DBConnect.GetData dbGetDataUnit = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse() {
+                            @Override
+                            public void processFinish(String result) {
+
+                                //Log.d("dbGetDataUnit되나...: ", result);
+
+                                String res = null;
+                                try {
+                                    JSONArray resArr = new JSONArray(result);
+                                    JSONArray item = resArr.getJSONArray(0);
+                                    if (item.equals("[]")){
+                                        res = "(null)";
+                                    }
+                                    res = item.getString(0);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                map.put(idx, res);
+                                //Log.d("map:: ", String.valueOf(map));
+
+                                if(z == idxArrL-1) {
+                                    HashMap<String, String> map2 = (HashMap<String, String>) map.clone();
+                                    hashMap_idIdxUnit.put(key, map2);
+                                    map.clear();
+
+                                    if(cnt_2 == length){
+                                        runActivity();
+                                    }
+                                    else {
+                                        cnt_2++;
+                                    }
+
+                                    //Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
+                                }
+
+                            }
+                        }).execute("select data_unit from datainfo where device_ID = " + '"' + key + '"' + " and data_idx = " + '"' + idx + '"', "1");
+                    }
+                    /*hashMap_idIdxUnit.put(key, map);
+                    Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
+                    map.clear();*/
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 
 }
+
+

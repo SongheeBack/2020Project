@@ -44,7 +44,7 @@ public class DBConnect {
         protected void onPreExecute() {
             super.onPreExecute();
 
-           /* progressDialog = ProgressDialog.show(MainActivity.mContext.getApplicationContext(),
+            /*progressDialog = ProgressDialog.show(getApplicationContext(),
                     "Please Wait", null, true, true);*/
         }
 
@@ -61,17 +61,6 @@ public class DBConnect {
                 delegate.processFinish(result);
             }
 
-            /*if (result == null){
-
-                //mTextViewResult.setText(errorString);
-            }
-            else {
-                mJsonString = result;
-                Log.w("JsonString: ", mJsonString);
-                Log.w("dbConStatus: ", DBConnect.this.getStatus());
-                //getResult();
-
-            }*/
         }
 
 
@@ -105,7 +94,7 @@ public class DBConnect {
 
 
                 int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d(TAG, "response code - " + responseStatusCode);
+                //Log.d(TAG, "response code - " + responseStatusCode);
 
                 // 전송에 성공한 경우, 받을 때
                 InputStream inputStream;
@@ -142,25 +131,5 @@ public class DBConnect {
 
     }
 
-    /*public String getResult(){
-        String res = mJsonString;
-        Log.w("getResult: ", "dbCon 결과" + res);
-        return res;
-    }
-
-    /*public String getStatus(){
-        String Fin = "Finished";
-        String Run = "Ruuning";
-        String status = DBConnect.this.getStatus();
-
-        if(status.equals(FINISHED)){
-            Log.w("getStatus: ", status);
-            return Fin;
-        }
-        else {
-            Log.w("getStatus: ", status);
-            return Run;
-        }
-    }*/
 
 }
