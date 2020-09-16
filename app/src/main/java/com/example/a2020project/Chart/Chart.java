@@ -263,6 +263,8 @@ public class Chart extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+
                 entry_chart.clear();
 
                 startD = tv[0].getText().toString();
@@ -351,6 +353,8 @@ public class Chart extends Fragment {
                                 JSONArray item = restArr.getJSONArray(i);
                                 date = item.getString(0);
                                 String value = item.getString(1);
+                                //float vf = Float.parseFloat(value);
+                                //Log.d("value: ", value + ", " + vf);
 
                                 //String valueUnit = value + " " + typeCh;
 

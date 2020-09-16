@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText userId;
     EditText userPw;
-    Button loginBtn;
+    ImageView loginBtn;
     String ID, PW;
     String user_level;
     String user_exist;
@@ -32,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
     int cnt;
     int cnt_2;
+    int ii;
+
 
     DBConnect DBcon = new DBConnect();
 
@@ -50,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         hashMap_idIdxUnit.clear();
         dName.clear();
 
+        ii = 0;
 
         userId = findViewById(R.id.loginId);
         userPw = findViewById(R.id.loginPassword);
@@ -147,9 +151,9 @@ public class LoginActivity extends AppCompatActivity {
 
             JSONArray device_ID = new JSONArray(device_ID_string);
             final int length = device_ID.length();
-            for(int i = 0; i< device_ID.length(); i++){
+            for(ii = 0; ii< device_ID.length(); ii++){
 
-                JSONArray item = device_ID.getJSONArray(i);
+                JSONArray item = device_ID.getJSONArray(ii);
                 final String id = item.getString(0);
                 //Log.d("id값이 뭐지:: ", id);
                 DBConnect.GetData getIndex = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
@@ -160,6 +164,10 @@ public class LoginActivity extends AppCompatActivity {
                         String res = result;
                         if(res.equals(ERROR)){
                             Log.w("Log Index Error: ", NOT_EXIST_INDEX);
+                            ii++;
+                        }
+                        else if (res.equals("[]")){
+
                         }
                         else{
                             //Log.d("res: ", res);
