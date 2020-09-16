@@ -111,6 +111,7 @@
                             android:id="@+id/startDate"
                             android:focusableInTouchMode="false"
                             android:hint="YYYY-MM-DD"
+                            android:textColor="#666666"
                             android:layout_weight="1"/>
                         <EditText
                             android:layout_width="wrap_content"
@@ -118,6 +119,7 @@
                             android:id="@+id/startTime"
                             android:focusableInTouchMode="false"
                             android:hint="HH:MM:SS"
+                            android:textColor="#666666"
                             android:layout_weight="1"/>
 
                     </LinearLayout>
@@ -140,12 +142,14 @@
                             android:layout_height="match_parent"
                             android:focusableInTouchMode="false"
                             android:id="@+id/endDate"
+                            android:textColor="#666666"
                             android:hint="YYYY-MM-DD"/>
                         <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:focusableInTouchMode="false"
                             android:id="@+id/endTime"
+                            android:textColor="#666666"
                             android:hint="HH:MM:SS"/>
 
                     </LinearLayout>

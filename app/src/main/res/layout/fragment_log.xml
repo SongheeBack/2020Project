@@ -105,6 +105,7 @@
                         android:layout_height="match_parent"
                         android:id="@+id/editTextDate1"
                         android:focusableInTouchMode="false"
+                        android:textColor="#666666"
                         android:hint="YYYY-MM-DD"
                         android:layout_weight="1"/>
                     <EditText
@@ -112,6 +113,7 @@
                         android:layout_height="match_parent"
                         android:id="@+id/editTextTime1"
                         android:focusableInTouchMode="false"
+                        android:textColor="#666666"
                         android:hint="HH:MM:SS"
                         android:layout_weight="1"/>
 
@@ -133,12 +135,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:focusableInTouchMode="false"
+                        android:textColor="#666666"
                         android:id="@+id/editTextDate2"
                         android:hint="YYYY-MM-DD"/>
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:focusableInTouchMode="false"
+                        android:textColor="#666666"
                         android:id="@+id/editTextTime2"
                         android:hint="HH:MM:SS"/>
 
