@@ -8,16 +8,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="3dp"
         android:text="Value"
         android:id="@+id/textView1"
-        android:textSize="15dp"
+        android:textSize="14dp"
         android:textColor="#000000"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:text="Date"
         android:id="@+id/textView2"
         android:textSize="13dp"

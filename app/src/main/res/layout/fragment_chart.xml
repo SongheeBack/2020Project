@@ -23,6 +23,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15dp"
                     android:text="Device: " />
 
                 <Spinner
@@ -34,6 +35,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15dp"
                     android:text="Data Type: " />
 
                 <Spinner
@@ -56,6 +58,7 @@
                     android:id="@+id/tv_deviceName"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
+                    android:textSize="16dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="조회할 기기를 선택해주세요."/>
@@ -95,6 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
+                            android:textSize="15dp"
                             android:layout_weight="1"
                             android:text="조회 시작 시점" />
 
@@ -126,6 +130,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
+                            android:textSize="15dp"
                             android:text="조회 종료 시점" />
                         <EditText
                             android:layout_width="wrap_content"
@@ -148,6 +153,7 @@
                     android:id="@+id/chart_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15dp"
                     android:text="조회" />
 
             </LinearLayout>
