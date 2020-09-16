@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
         android:textSize="14dp"
+        android:textColor="#000000"
         android:gravity="start"
         android:textStyle="bold"
         android:id="@+id/monitorDeviceName"/>
@@ -17,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="13dp"
+        android:textColor="#666666"
         android:layout_marginLeft="5dp"
         android:id="@+id/monitorDataP" />
 

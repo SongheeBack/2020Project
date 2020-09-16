@@ -16,7 +16,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="데이터 조회"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="#666666"
+            android:text="각 기기의 최근 데이터 조회"
             android:layout_gravity="top" />
 
         <ListView

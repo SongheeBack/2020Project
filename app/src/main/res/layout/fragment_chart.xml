@@ -30,6 +30,7 @@
                     android:id="@+id/spinner_device"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#666666"
                     android:layout_weight="1" />
 
                 <TextView
@@ -42,6 +43,7 @@
                     android:id="@+id/spinner_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#666666"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -69,6 +71,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_dataType"
                     android:textStyle="bold"
+                    android:textSize="16dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:gravity="center"/>
