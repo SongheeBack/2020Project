@@ -1,4 +1,4 @@
-package com.example.a2020project;
+package com.example.a2020project.DBConnects;
 
 import android.app.ProgressDialog;
 import android.content.Context;

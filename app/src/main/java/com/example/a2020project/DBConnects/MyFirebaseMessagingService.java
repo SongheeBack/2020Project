@@ -1,4 +1,4 @@
-package com.example.a2020project;
+package com.example.a2020project.DBConnects;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -25,6 +25,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
+import com.example.a2020project.MainActivity;
+import com.example.a2020project.R;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.IOException;

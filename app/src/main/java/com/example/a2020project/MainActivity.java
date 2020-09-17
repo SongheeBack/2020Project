@@ -11,12 +11,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.data.ScatterData;
+import com.example.a2020project.ErrorData.ErrorData;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -124,6 +123,32 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.goToError:
+                errorDataActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void errorDataActivity(){
+        Intent intent = new Intent(getApplicationContext(), ErrorData.class);
+        //intent.putExtra("device_ID", device_ID_string);
+        intent.putExtra("logIndexArray", logIndex);
+        intent.putExtra("deviceName", dName);
+        intent.putExtra("idIdxUnit", idIdxUnit);
+        startActivity(intent);
+    }
 
     public ArrayList<String> getDevice_ID() {
         //Log.d("메인 getDevice_ID ::", "1");
