@@ -81,7 +81,12 @@ public class Monitor extends Fragment {
                     public void processFinish(String result) {
                         //Log.d("dbMonitor1되나...: ",  finalDeviceId + " / " + logindex + " / "+result);
 
-                        getRecentData(finalDeviceId, logindex, result);
+                        if(result.equals("[]")){
+                            showResult(finalDeviceId, "0", "조회할 수 있는 데이터가 없습니다.");
+                        }
+                        else{
+                            getRecentData(finalDeviceId, logindex, result);
+                        }
 
                     }
                 }).execute("SELECT DISTINCT log_date from log WHERE log_index = "+ '"' + logindex + '"' +" and device_id = " + '"' + deviceId + '"' +" ORDER BY log_date DESC LIMIT 1", "1");

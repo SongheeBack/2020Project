@@ -152,10 +152,10 @@ public class LoginActivity extends AppCompatActivity {
             JSONArray device_ID = new JSONArray(device_ID_string);
             final int length = device_ID.length();
             for(ii = 0; ii< device_ID.length(); ii++){
-
                 JSONArray item = device_ID.getJSONArray(ii);
                 final String id = item.getString(0);
                 //Log.d("id값이 뭐지:: ", id);
+
                 DBConnect.GetData getIndex = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
                     @Override
                     public void processFinish(String result) {
@@ -164,10 +164,11 @@ public class LoginActivity extends AppCompatActivity {
                         String res = result;
                         if(res.equals(ERROR)){
                             Log.w("Log Index Error: ", NOT_EXIST_INDEX);
-                            ii++;
                         }
                         else if (res.equals("[]")){
-
+                            res = "["+"[" +"0"+"]"+"]";
+                            hashMap_idIdx.put(id, res);
+                            //comArrayList(hashMap_idIdx);
                         }
                         else{
                             //Log.d("res: ", res);
@@ -247,7 +248,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         final int idxArrL = idxArr.length();
                         //Log.d("idxArrL: ", String.valueOf(idxArrL));
-
 
                         JSONArray item = idxArr.getJSONArray(j);
                         //Log.d("item: ", String.valueOf(item));

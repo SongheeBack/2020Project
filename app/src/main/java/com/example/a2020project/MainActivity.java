@@ -1,7 +1,6 @@
 package com.example.a2020project;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -9,20 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.github.mikephil.charting.data.ScatterData;
 import com.google.android.material.tabs.TabLayout;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     public HashMap<String, String> dName = new HashMap<>();
     public HashMap<String,HashMap<String,String>> idIdxUnit = new HashMap<>();
 
+    int tabP;
+    TabAdapter tabAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Adapter
         final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        final TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager(), 3);
+        tabAdapter = new TabAdapter(getSupportFragmentManager(), 3);
         viewPager.setAdapter(tabAdapter);
 
         // 탭 선택 이벤트
@@ -71,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                tabP = tab.getPosition();
             }
 
             @Override
@@ -86,6 +81,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                refresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void refresh(){
+        tabAdapter.notifyDataSetChanged();
+        Log.d("Refresh: ", String.valueOf(tabP));
+    }
 
     public ArrayList<String> getDevice_ID() {
         //Log.d("메인 getDevice_ID ::", "1");
