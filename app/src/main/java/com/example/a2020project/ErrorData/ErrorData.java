@@ -95,6 +95,10 @@ public class ErrorData extends AppCompatActivity {
             android.util.Log.d("deviceName:: ", String.valueOf(deviceName));
         }
 
+
+        TextView recentData = findViewById(R.id.recentData);
+        recentData.setText("");
+
         final StringBuilder startDate = new StringBuilder();
         final StringBuilder endDate = new StringBuilder();
         final StringBuilder startTime = new StringBuilder();
