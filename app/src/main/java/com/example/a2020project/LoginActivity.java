@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
-        Toast.makeText(getApplicationContext(), "사용자: " + ID + "Level: " + user_level, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "사용자: " + ID + "Level: " + user_level, Toast.LENGTH_SHORT).show();
     }
 
     private void getUserData(){
@@ -168,6 +168,31 @@ public class LoginActivity extends AppCompatActivity {
                         else if (res.equals("[]")){
                             res = "["+"[" +"0"+"]"+"]";
                             hashMap_idIdx.put(id, res);
+                            cnt = 1;
+                            DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                                @Override
+                                public void processFinish(String result) {
+                                    //Log.d("Login/getDName 되나...: ", id+"/"+result);
+
+                                    String name;
+                                    try {
+                                        JSONArray restArr = new JSONArray(result);
+                                        for(int i=0;i<restArr.length();i++){
+
+                                            JSONArray item = restArr.getJSONArray(i);
+                                            name = item.getString(0);
+                                            dName.put(id, name);
+
+                                            if(cnt == length){
+                                                comArrayList(hashMap_idIdx);
+                                                //Log.d("length_cnt: ", String.valueOf(cnt));
+                                            }
+                                            else { cnt++; } }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");
                             //comArrayList(hashMap_idIdx);
                         }
                         else{

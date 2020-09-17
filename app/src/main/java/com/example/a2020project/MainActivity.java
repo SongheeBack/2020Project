@@ -81,28 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.refresh:
-                refresh();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void refresh(){
-        tabAdapter.notifyDataSetChanged();
-        Log.d("Refresh: ", String.valueOf(tabP));
-    }
 
     public ArrayList<String> getDevice_ID() {
         //Log.d("메인 getDevice_ID ::", "1");
