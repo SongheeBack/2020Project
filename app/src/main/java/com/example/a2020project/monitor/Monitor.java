@@ -3,12 +3,14 @@ package com.example.a2020project.monitor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.LoginFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.a2020project.DBConnect;
@@ -27,6 +29,7 @@ import java.util.HashMap;
  */
 public class Monitor extends Fragment {
 
+    ImageView refresh;
     ListView listview;
     MonitorListviewAdapter mAdapter;
 
@@ -48,14 +51,17 @@ public class Monitor extends Fragment {
 
         // Adapter 생성
         mAdapter = new MonitorListviewAdapter();
+        //dName.clear();
+
+        dName = ((MainActivity)getActivity()).getDevice_Name();
 
         //id_check = null;
         value = null;
         cnt_check1 = 0;
-        dName.clear();
 
         // 리스트뷰 참조 및 Adapter달기
         listview = view.findViewById(R.id.monitorListview);
+        refresh = view.findViewById(R.id.refresh);
 
         ArrayList<String> device_ID = new ArrayList<>();
         device_ID = ((MainActivity)getActivity()).getDevice_ID();
@@ -76,7 +82,9 @@ public class Monitor extends Fragment {
                 final String logindex = log_Index.get(j);
 
                 final String finalDeviceId = deviceId;
-                DBConnect.GetData dbMonitor1 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+
+                getLogData(logindex, finalDeviceId);
+                /*DBConnect.GetData dbMonitor1 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
                     @Override
                     public void processFinish(String result) {
                         //Log.d("dbMonitor1되나...: ",  finalDeviceId + " / " + logindex + " / "+result);
@@ -89,10 +97,21 @@ public class Monitor extends Fragment {
                         }
 
                     }
-                }).execute("SELECT DISTINCT log_date from log WHERE log_index = "+ '"' + logindex + '"' +" and device_id = " + '"' + deviceId + '"' +" ORDER BY log_date DESC LIMIT 1", "1");
+                }).execute("SELECT DISTINCT log_date from log WHERE log_index = "+ '"' + logindex + '"' +" and device_id = " + '"' + finalDeviceId + '"' +" ORDER BY log_date DESC LIMIT 1", "1");*/
             }
 
         }
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.d("dName:: ", String.valueOf(dName));
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.detach(Monitor.this).attach(Monitor.this).commit();
+            }
+        });
+
 
         return view;
         //return inflater.inflate(R.layout.fragment_monitor, container, false);
@@ -104,6 +123,22 @@ public class Monitor extends Fragment {
 
     }
 
+    public void getLogData(final String logindex, final String deviceId){
+        DBConnect.GetData dbMonitor1 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+            @Override
+            public void processFinish(String result) {
+                //Log.d("dbMonitor1되나...: ",  finalDeviceId + " / " + logindex + " / "+result);
+
+                if(result.equals("[]")){
+                    showResult(deviceId, "0", "조회할 수 있는 데이터가 없습니다.");
+                }
+                else{
+                    getRecentData(deviceId, logindex, result);
+                }
+
+            }
+        }).execute("SELECT DISTINCT log_date from log WHERE log_index = "+ '"' + logindex + '"' +" and device_id = " + '"' + deviceId + '"' +" ORDER BY log_date DESC LIMIT 1", "1");
+    }
 
     public ArrayList<String> indexString(String in){
 
@@ -165,8 +200,10 @@ public class Monitor extends Fragment {
 
     private void showResult(String id, String idx, String data){
 
+        //dName.clear();
+
         //Log.d("sdf::: ", id_check);
-        dName = ((MainActivity)getActivity()).getDevice_Name();
+        //dName = ((MainActivity)getActivity()).getDevice_Name();
         String unit = ((MainActivity)getActivity()).getData_Unit(id, idx);
         String name = dName.get(id);
 

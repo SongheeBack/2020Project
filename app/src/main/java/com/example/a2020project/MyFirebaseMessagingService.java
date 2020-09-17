@@ -20,6 +20,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
@@ -35,7 +37,12 @@ import okhttp3.RequestBody;
 
 public class MyFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMessagingService";
+    private LocalBroadcastManager broadcaster;
 
+    @Override
+    public void onCreate() {
+        broadcaster = LocalBroadcastManager.getInstance(this);
+    }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -58,6 +65,25 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             //String click_action = remoteMessage.getData().get("clickAction");
             sendNotification(title, body);
         }
+
+        Intent intent = new Intent("MyData");
+        /*
+        intent.putExtra("phone", remoteMessage.getData().get("DriverPhone"));
+        intent.putExtra("lat", remoteMessage.getData().get("DriverLatitude"));
+        intent.putExtra("lng", remoteMessage.getData().get("DriverLongitude"));
+        */
+        broadcaster.sendBroadcast(intent);
+
+        /*
+        String title = remoteMessage.getData().get("title");
+        String message = remoteMessage.getData().get("message");
+        Log.d("nope", "From: " + remoteMessage.getFrom());
+        Log.d("nope", "Title: " + title);
+        Log.d("nope", "Message: " + message);
+
+        NotificationHelper notificationHelper = new NotificationHelper(getApplicationContext());
+        notificationHelper.createNotification(title,message);
+        */
     }
 
     private void sendNotification(String title, String body) {
@@ -68,6 +94,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         //전달된 액티비티에 따라 분기하여 해당 액티비티를 오픈하도록 한다.
         Intent intent;
         intent = new Intent(this, MainActivity.class);
+
         //번들에 수신한 메세지를 담아서 메인액티비티로 넘겨 보자.
         Bundle bundle = new Bundle();
         bundle.putString("title", title);

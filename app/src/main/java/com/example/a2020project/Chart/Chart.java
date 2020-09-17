@@ -159,7 +159,6 @@ public class Chart extends Fragment {
         });
 
 
-
         // 선택한 날짜와 시간을 저장하기 위한 변수 선언
         final StringBuilder chart_StartDate = new StringBuilder();
         final StringBuilder chart_EndDate = new StringBuilder();
@@ -263,8 +262,6 @@ public class Chart extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
                 entry_chart.clear();
 
                 startD = tv[0].getText().toString();
@@ -294,7 +291,6 @@ public class Chart extends Fragment {
 
     /* 만약 (2, 3) add하고 (2, 5)한다고해서
     기존 (2, 3)이 사라지는게 아니라 x가 2인곳에 y가 3, 5의 점이 찍힘 */
-
 
         return view;
         //return inflater.inflate(R.layout.fragment_chart, container, false);
