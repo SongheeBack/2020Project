@@ -23,7 +23,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
                     android:text="Device: " />
 
                 <Spinner
@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
                     android:text="Data Type: " />
 
                 <Spinner
@@ -60,7 +60,7 @@
                     android:id="@+id/tv_deviceName"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="조회할 기기를 선택해주세요."/>
@@ -101,7 +101,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
-                            android:textSize="15dp"
+                            android:textSize="12dp"
                             android:layout_weight="1"
                             android:text="조회 시작 시점" />
 
@@ -111,6 +111,7 @@
                             android:id="@+id/startDate"
                             android:focusableInTouchMode="false"
                             android:hint="YYYY-MM-DD"
+                            android:textSize="12dp"
                             android:textColor="#666666"
                             android:layout_weight="1"/>
                         <EditText
@@ -118,6 +119,7 @@
                             android:layout_height="match_parent"
                             android:id="@+id/startTime"
                             android:focusableInTouchMode="false"
+                            android:textSize="12dp"
                             android:hint="HH:MM:SS"
                             android:textColor="#666666"
                             android:layout_weight="1"/>
@@ -135,7 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
-                            android:textSize="15dp"
+                            android:textSize="12dp"
                             android:text="조회 종료 시점" />
                         <EditText
                             android:layout_width="wrap_content"
@@ -143,6 +145,7 @@
                             android:focusableInTouchMode="false"
                             android:id="@+id/endDate"
                             android:textColor="#666666"
+                            android:textSize="12dp"
                             android:hint="YYYY-MM-DD"/>
                         <EditText
                             android:layout_width="wrap_content"
@@ -150,6 +153,7 @@
                             android:focusableInTouchMode="false"
                             android:id="@+id/endTime"
                             android:textColor="#666666"
+                            android:textSize="12dp"
                             android:hint="HH:MM:SS"/>
 
                     </LinearLayout>
@@ -160,7 +164,7 @@
                     android:id="@+id/chart_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="13dp"
                     android:text="조회" />
 
             </LinearLayout>
@@ -172,11 +176,11 @@
                 android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="x 축: 데이터 개수 / y축 데이터 수치"
-                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:text="x축: 데이터 개수 / y축 데이터 수치"
+                    android:textSize="13dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
