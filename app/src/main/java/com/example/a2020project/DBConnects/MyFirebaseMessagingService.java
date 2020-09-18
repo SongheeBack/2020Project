@@ -125,8 +125,10 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             channel.setVibrationPattern(new long[]{100, 200, 300});
             manager.createNotificationChannel(channel);
             notificationBuilder = new NotificationCompat.Builder(this,channelId)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.mipmap.ic_launcher_hana)
                     .setContentTitle(title)
+                    .setStyle(new NotificationCompat.BigTextStyle().setBigContentTitle(title)
+                            .bigText(body))
                     .setContentText(body)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
@@ -138,9 +140,10 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
         } else {
             notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.mipmap.ic_launcher_hana)
                     .setContentTitle(title)
-                    .setContentText(body)
+                    .setStyle(new NotificationCompat.BigTextStyle().setBigContentTitle(title)
+                            .bigText(body))
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setVibrate(new long[]{1000, 1000})

@@ -194,7 +194,6 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }
                             }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");
-                            //comArrayList(hashMap_idIdx);
                         }
                         else{
                             //Log.d("res: ", res);
