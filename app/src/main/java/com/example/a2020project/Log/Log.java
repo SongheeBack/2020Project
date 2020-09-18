@@ -320,7 +320,10 @@ public class Log extends Fragment {
                                 String date = item.getString(0);
                                 String value = item.getString(1);
 
-                                String valueUnit = value + " " + typeCh;
+                                Float cData = Float.parseFloat(value);
+                                String data_2 = String.valueOf(Math.round(cData*100)/100.0);
+
+                                String valueUnit = data_2 + " " + typeCh;
 
                                 adapter1.addItem(valueUnit, date);
                                 listview1.setAdapter(adapter1);

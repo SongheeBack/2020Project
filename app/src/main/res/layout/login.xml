@@ -52,4 +52,14 @@
         app:layout_constraintTop_toBottomOf="@+id/loginPassword"
         app:srcCompat="@drawable/login" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="77dp"
+        android:layout_height="87dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/hanhana" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

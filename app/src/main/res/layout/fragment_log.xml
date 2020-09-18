@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
-                        android:textSize="12dp"
+                        android:textSize="13dp"
                         android:layout_weight="1"
                         android:text="조회 시작 시점" />
                     <EditText
@@ -107,7 +107,7 @@
                         android:id="@+id/editTextDate1"
                         android:focusableInTouchMode="false"
                         android:textColor="#666666"
-                        android:textSize="12dp"
+                        android:textSize="13dp"
                         android:hint="YYYY-MM-DD"
                         android:layout_weight="1"/>
                     <EditText
@@ -115,7 +115,7 @@
                         android:layout_height="match_parent"
                         android:id="@+id/editTextTime1"
                         android:focusableInTouchMode="false"
-                        android:textSize="12dp"
+                        android:textSize="13dp"
                         android:textColor="#666666"
                         android:hint="HH:MM:SS"
                         android:layout_weight="1"/>
@@ -133,7 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
-                        android:textSize="12dp"
+                        android:textSize="13dp"
                         android:text="조회 종료 시점" />
                     <EditText
                         android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
                         android:focusableInTouchMode="false"
                         android:textColor="#666666"
                         android:id="@+id/editTextDate2"
-                        android:textSize="12dp"
+                        android:textSize="13dp"
                         android:hint="YYYY-MM-DD"/>
                     <EditText
                         android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                         android:focusableInTouchMode="false"
                         android:textColor="#666666"
                         android:id="@+id/editTextTime2"
-                        android:textSize="12dp"
+                        android:textSize="13dp"
                         android:hint="HH:MM:SS"/>
 
                 </LinearLayout>

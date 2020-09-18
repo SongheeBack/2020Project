@@ -129,7 +129,7 @@ public class Monitor extends Fragment {
                 //Log.d("dbMonitor1되나...: ",  finalDeviceId + " / " + logindex + " / "+result);
 
                 if(result.equals("[]")){
-                    showResult(deviceId, "0", "조회할 수 있는 데이터가 없습니다.");
+                    showResult_null(deviceId, "0", "조회할 수 있는 데이터가 없습니다.");
                 }
                 else{
                     getRecentData(deviceId, logindex, result);
@@ -201,6 +201,8 @@ public class Monitor extends Fragment {
 
         //dName.clear();
 
+        Float cData = Float.parseFloat(data);
+        String data_2 = String.valueOf(Math.round(cData*100)/100.0);
         //Log.d("sdf::: ", id_check);
         //dName = ((MainActivity)getActivity()).getDevice_Name();
         String unit = ((MainActivity)getActivity()).getData_Unit(id, idx);
@@ -208,7 +210,7 @@ public class Monitor extends Fragment {
 
         int cnt_check2 = ((MainActivity)getActivity()).getLogIndex_Cnt(id);
         //Log.d("cnt_ch2: ", String.valueOf(cnt_check2));
-        String addUnit = data + unit;
+        String addUnit = data_2 + unit;
         //Log.d("name + addUnit : ", name + ", " + addUnit);
 
 
@@ -231,6 +233,36 @@ public class Monitor extends Fragment {
         }
         listview.setAdapter(mAdapter);
 
+    }
+
+    public void showResult_null(String id, String idx, String data){
+
+        String name = dName.get(id);
+
+        int cnt_check2 = ((MainActivity)getActivity()).getLogIndex_Cnt(id);
+        //Log.d("cnt_ch2: ", String.valueOf(cnt_check2));
+        String addUnit = data;
+        //Log.d("name + addUnit : ", name + ", " + addUnit);
+
+
+        if(cnt_check1 == 0){
+            value = addUnit;
+            cnt_check1++;
+        }
+        else {
+            value = value + "\n" + addUnit;
+            cnt_check1++;
+        }
+
+        if (cnt_check1 == cnt_check2) {
+
+            mAdapter.addItem(name, value);
+
+            //Log.d("value, cnt: ", value + ", " + "1 = " + cnt_check1 + ", 2 = " + cnt_check2);
+            cnt_check1 = 0;
+            value = null;
+        }
+        listview.setAdapter(mAdapter);
     }
 
 }

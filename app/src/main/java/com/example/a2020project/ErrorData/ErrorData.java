@@ -317,7 +317,10 @@ public class ErrorData extends AppCompatActivity {
                                 String date = item.getString(0);
                                 String value = item.getString(1);
 
-                                String valueUnit = value + " " + typeCh;
+                                Float cData = Float.parseFloat(value);
+                                String data_2 = String.valueOf(Math.round(cData*100)/100.0);
+
+                                String valueUnit = data_2 + " " + typeCh;
 
                                 errAdapter.addItem(valueUnit, date);
                                 errorData.setAdapter(errAdapter);
