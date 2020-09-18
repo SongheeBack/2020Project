@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,7 +32,6 @@ import java.util.HashMap;
 
 public class ErrorData extends AppCompatActivity {
 
-    public static Context mContext;
     ArrayList<HashMap<String, String>> logIndex = new ArrayList<>();
     public HashMap<String, String> dName = new HashMap<>();
     public HashMap<String,HashMap<String,String>> idIdxUnit = new HashMap<>();
@@ -62,8 +62,6 @@ public class ErrorData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.error_data);
 
-        mContext = this;
-
         Intent intent = this.getIntent();
 
         logIndex.clear();
@@ -85,7 +83,9 @@ public class ErrorData extends AppCompatActivity {
         idIdxUnit = (HashMap<String,HashMap<String,String>>) getIntent().getSerializableExtra("idIdxUnit");
 
         device_ID = ((MainActivity)MainActivity.mContext).getDevice_ID();
+        Log.d("id:: ", String.valueOf(device_ID));
         dName = ((MainActivity)MainActivity.mContext).getDevice_Name();
+        Log.d("dName:: ", String.valueOf(dName));
 
         for(int i = 0; i<device_ID.size(); i++){
             String name;
@@ -245,6 +245,14 @@ public class ErrorData extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                Log.d("Err Btn: ", "checked!");
+
+                errAdapter.clear();
+                startD = tv[0].getText().toString();
+                endD = tv[1].getText().toString();
+                startT = tv[2].getText().toString();
+                endT = tv[3].getText().toString();
+
                 if (startD != null & endD != null & startT != null & endT != null) {
 
                     String sDate = startD + " " + startT;
@@ -292,10 +300,10 @@ public class ErrorData extends AppCompatActivity {
         //android.util.Log.d("name, type: ", nameCh + ", " + typeCh);
 
         if(idx != null){
-            DBConnect.GetData dbLog1 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+            DBConnect.GetData dbErr1 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
                 @Override
                 public void processFinish(String result) {
-                    //android.util.Log.d("dbLog1되나...: ", result);
+                    android.util.Log.d("dbErr1...: ", result);
 
                     if (result.equals("[]")) {
                         Toast.makeText(ErrorData.this, "해당 기간에 조회 가능한 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
@@ -320,7 +328,7 @@ public class ErrorData extends AppCompatActivity {
                         }
                     }
                 }
-            }).execute("select DISTINCT date_format(log_date,'%y-%m-%d %H:%i:%s') as alarm_date, alarm_value from alarm " +
+            }).execute("select DISTINCT date_format(alarm_date,'%y-%m-%d %H:%i:%s') as alarm_date, alarm_value from alarm " +
                     "where device_ID = " + '"' + id + '"' + " and alarm_index = " + '"' + idx + '"' +
                     " and alarm_date between "+ '"' + sD + '"' + " and" + '"' + eD + '"' + " order by alarm_date desc", "2");
 
