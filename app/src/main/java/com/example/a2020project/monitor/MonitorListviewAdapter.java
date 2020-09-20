@@ -75,4 +75,8 @@ public class MonitorListviewAdapter extends BaseAdapter {
 
         monitorListviewlist.add(listviewItem);
     }
+
+    public void clear(){
+        monitorListviewlist.clear();
+    }
 }

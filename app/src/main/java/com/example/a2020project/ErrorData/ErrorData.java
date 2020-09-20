@@ -2,7 +2,6 @@ package com.example.a2020project.ErrorData;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,9 +94,6 @@ public class ErrorData extends AppCompatActivity {
             android.util.Log.d("deviceName:: ", String.valueOf(deviceName));
         }
 
-
-        TextView recentData = findViewById(R.id.recentData);
-        recentData.setText("");
 
         final StringBuilder startDate = new StringBuilder();
         final StringBuilder endDate = new StringBuilder();

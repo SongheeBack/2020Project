@@ -45,6 +45,21 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = this;
 
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.d("test", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        Log.d("token", task.getResult().getToken());
+                    }
+                });
+
         Intent intent = this.getIntent();
         //String id = intent.getStringExtra("device_ID");
 
@@ -91,21 +106,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseMessaging.getInstance().subscribeToTopic("news");
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.d("test", "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        Log.d("token", task.getResult().getToken());
-                    }
-                });
-
     }
 
     @Override
@@ -123,13 +123,17 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            String title = String.valueOf(bundle.getString("title"));
+            String body = String.valueOf(bundle.getString("body"));
+
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("이상 데이터 발생").setMessage("데이터를 확인하시겠습니까?");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            builder.setTitle("이상 데이터 발생").setMessage("오류데이터를 확인하세요.");
+            builder.setPositiveButton("닫기", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
-                    Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "오류데이터를 확인하세요.", Toast.LENGTH_SHORT).show();
                 }
             });
 

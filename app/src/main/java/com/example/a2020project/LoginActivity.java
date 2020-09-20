@@ -39,7 +39,9 @@ public class LoginActivity extends AppCompatActivity {
 
     DBConnect DBcon = new DBConnect();
 
+    ArrayList<String> deviceID = new ArrayList<>();
     ArrayList<HashMap> cArrayList = new ArrayList<>();
+    HashMap<String, String> hashMap_idNumOfData = new HashMap<>();
     HashMap<String,String> hashMap_idIdx = new HashMap<>();
     HashMap<String,HashMap<String,String>> hashMap_idIdxUnit = new HashMap<>();
     HashMap<String,String> dName = new HashMap<>();
@@ -50,9 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
 
+        deviceID.clear();
         hashMap_idIdx.clear();
         hashMap_idIdxUnit.clear();
         dName.clear();
+        hashMap_idNumOfData.clear();
 
         ii = 0;
 
@@ -75,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                         DBConnect.GetData dbcon = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
                             @Override
                             public void processFinish(String result) {
-                                //Log.d("dbcon되나..: ", result);
+                                Log.d("dbcon되나..: ", result);
                                 user_exist = result;
                                 if (user_exist.equals("["+"["+'"'+"1"+'"'+"]"+"]")){
                                     getUserData();
@@ -138,39 +142,99 @@ public class LoginActivity extends AppCompatActivity {
         DBConnect.GetData dbcon3 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
             @Override
             public void processFinish(String result) {
-                //Log.d("dbcon3 되나...: ", result);
-                device_ID_string = result;
-                getIndex();
+                Log.d("dbcon3 되나...: ", result);
+                //device_ID_string = result;
+                String id;
+                String name;
+                String numOfData;
 
+                try {
+                    JSONArray restArr = new JSONArray(result);
+                    for(int i=0;i<restArr.length();i++) {
+
+                        int j = i;
+                        JSONArray item = restArr.getJSONArray(i);
+                        id = item.getString(0);
+                        name = item.getString(1);
+                        numOfData = item.getString(2);
+
+                        deviceID.add(id);
+                        dName.put(id, name);
+                        hashMap_idNumOfData.put(id, numOfData);
+
+                        if(j==restArr.length()-1){
+                            getIndex();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }).execute("select device_ID from device where device_level <=" + '"' + intLevel + '"', "1");
+        }).execute("select device_ID, device_name, device_num_data from device where device_level <=" + '"' + intLevel + '"', "3");
     }
+
+    /*public void getDName(final String id, final int length){
+
+        DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+            @Override
+            public void processFinish(String result) {
+                //Log.d("Login/getDName 되나...: ", id+"/"+result);
+
+                String name;
+                try {
+                    JSONArray restArr = new JSONArray(result);
+                    for(int i=0;i<restArr.length();i++){
+
+                        JSONArray item = restArr.getJSONArray(i);
+                        name = item.getString(0);
+                        dName.put(id, name);
+
+                        if(cnt == length){
+                            comArrayList(hashMap_idIdx);
+                            //Log.d("length_cnt: ", String.valueOf(cnt));
+                        }
+                        else { cnt++; } }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");
+    }*/
 
     public void getIndex(){
 
-        try {
+        final int length = deviceID.size();
+        Log.d("deviceID: ", String.valueOf(deviceID));
+        Log.d("length: ", String.valueOf(length));
+        for(ii = 0; ii< length; ii++){
+            //JSONArray item = device_ID.getJSONArray(ii);
+            final String id = deviceID.get(ii);
+            //Log.d("id값이 뭐지:: ", id);
 
-            JSONArray device_ID = new JSONArray(device_ID_string);
-            final int length = device_ID.length();
-            for(ii = 0; ii< device_ID.length(); ii++){
-                JSONArray item = device_ID.getJSONArray(ii);
-                final String id = item.getString(0);
-                //Log.d("id값이 뭐지:: ", id);
+            cnt = 1;
+            DBConnect.GetData getIndex = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                @Override
+                public void processFinish(String result) {
+                    Log.d("Login/getIndex 되나...: ", id+"/"+result);
 
-                DBConnect.GetData getIndex = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
-                    @Override
-                    public void processFinish(String result) {
-                        Log.d("Login/getIndex 되나...: ", id+"/"+result);
-
-                        String res = result;
-                        if(res.equals(ERROR)){
+                    Log.d("length_cnt: ", String.valueOf(cnt));
+                    String res = result;
+                    if(res.equals(ERROR)){
                             Log.w("Log Index Error: ", NOT_EXIST_INDEX);
                         }
-                        else if (res.equals("[]")){
-                            res = "["+"[" +"0"+"]"+"]";
-                            hashMap_idIdx.put(id, res);
-                            cnt = 1;
-                            DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                    else if (res.equals("[]")) {
+                        res = "[" + "[" + "0" + "]" + "]";
+                        hashMap_idIdx.put(id, res);
+                        //cnt = 1;
+                        if (cnt == length) {
+                            comArrayList(hashMap_idIdx);
+                            Log.d("length_cnt: ", String.valueOf(cnt));
+                        } else {
+                                cnt++;
+                            }
+                        /*getDName(id, length);
+                            DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse() {
                                 @Override
                                 public void processFinish(String result) {
                                     //Log.d("Login/getDName 되나...: ", id+"/"+result);
@@ -178,61 +242,67 @@ public class LoginActivity extends AppCompatActivity {
                                     String name;
                                     try {
                                         JSONArray restArr = new JSONArray(result);
-                                        for(int i=0;i<restArr.length();i++){
+                                        for (int i = 0; i < restArr.length(); i++) {
 
                                             JSONArray item = restArr.getJSONArray(i);
                                             name = item.getString(0);
                                             dName.put(id, name);
 
-                                            if(cnt == length){
+                                            if (cnt == length) {
                                                 comArrayList(hashMap_idIdx);
                                                 //Log.d("length_cnt: ", String.valueOf(cnt));
+                                            } else {
+                                                cnt++;
                                             }
-                                            else { cnt++; } }
+                                        }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
-                            }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");
-                        }
-                        else{
-                            //Log.d("res: ", res);
-                            hashMap_idIdx.put(id, res);
-                            //Log.d("hashMap Id Name: ", String.valueOf(hashMap_idIdx));
-                            cnt = 1;
-                            DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
-                                @Override
-                                public void processFinish(String result) {
-                                    //Log.d("Login/getDName 되나...: ", id+"/"+result);
-
-                                    String name;
-                                    try {
-                                        JSONArray restArr = new JSONArray(result);
-                                        for(int i=0;i<restArr.length();i++){
-
-                                            JSONArray item = restArr.getJSONArray(i);
-                                            name = item.getString(0);
-                                            dName.put(id, name);
-
-                                            if(cnt == length){
-                                                comArrayList(hashMap_idIdx);
-                                                //Log.d("length_cnt: ", String.valueOf(cnt));
-                                            }
-                                            else { cnt++; } }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");
-                        }
+                            }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");*/
                     }
-                }).execute("SELECT DISTINCT log_index FROM log WHERE device_ID = " + '"' + id + '"', "1");
-            }
+                    else{
+                        //Log.d("res: ", res);
+                        hashMap_idIdx.put(id, res);
+                        //Log.d("hashMap Id Name: ", String.valueOf(hashMap_idIdx));
+                        //cnt = 1;
+                        if (cnt == length) {
+                            comArrayList(hashMap_idIdx);
+                            Log.d("length_cnt: ", String.valueOf(cnt));
+                        } else {
+                                cnt++;
+                            }
+                        //getDName(id, length);
+                        /*DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
+                                @Override
+                                public void processFinish(String result) {
+                                    //Log.d("Login/getDName 되나...: ", id+"/"+result);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+                                    String name;
+
+                                    try {
+                                        JSONArray restArr = new JSONArray(result);
+                                        for(int i=0;i<restArr.length();i++){
+
+                                            JSONArray item = restArr.getJSONArray(i);
+                                            name = item.getString(0);
+                                            dName.put(id, name);
+
+
+                                            if(cnt == length){
+                                                comArrayList(hashMap_idIdx);
+                                                //Log.d("length_cnt: ", String.valueOf(cnt));
+                                            }
+                                            else { cnt++; } }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");*/
+                    }
+                }
+            }).execute("SELECT DISTINCT data_idx FROM datainfo WHERE device_ID = " + '"' + id + '"', "1");
         }
-
     }
 
     public void comArrayList(final HashMap<String, String> hashMap) {
@@ -262,6 +332,8 @@ public class LoginActivity extends AppCompatActivity {
                 //Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
                 final String key = keyset.get(i);
                 String Idx = str.get(keyset.get(i));
+                //final int IdxCnt = Integer.parseInt(hashMap_idNumOfData.get(i));
+               // Log.d("numofData: ", String.valueOf(IdxCnt));
                 //Log.d("Idx: ", Idx);
 
                 try {
@@ -270,20 +342,18 @@ public class LoginActivity extends AppCompatActivity {
 
                     for(int j = 0; j<idxArr.length(); j++){
                         final int z = j;
-
                         final int idxArrL = idxArr.length();
                         //Log.d("idxArrL: ", String.valueOf(idxArrL));
-
                         JSONArray item = idxArr.getJSONArray(j);
                         //Log.d("item: ", String.valueOf(item));
-
                         final String idx = item.getString(0);
                         //Log.d("idx: ", String.valueOf(idx));
+
                         DBConnect.GetData dbGetDataUnit = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse() {
                             @Override
                             public void processFinish(String result) {
 
-                                //Log.d("dbGetDataUnit되나...: ", result);
+                                Log.d("dbGetDataUnit되나...: ", result);
 
                                 String res = null;
                                 try {
@@ -312,9 +382,7 @@ public class LoginActivity extends AppCompatActivity {
                                         cnt_2++;
                                     }
 
-                                    //Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
                                 }
-
                             }
                         }).execute("select data_unit from datainfo where device_ID = " + '"' + key + '"' + " and data_idx = " + '"' + idx + '"', "1");
                     }

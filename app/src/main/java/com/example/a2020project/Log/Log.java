@@ -81,7 +81,7 @@ public class Log extends Fragment {
         endT = null;
 
         device_ID = ((MainActivity)getActivity()).getDevice_ID();
-        //android.util.Log.d("로그~~id:: ", String.valueOf(device_ID));
+        android.util.Log.d("로그~~id:: ", String.valueOf(device_ID));
         dName = ((MainActivity)getActivity()).getDevice_Name();
         //android.util.Log.d("로그~~name:: ", String.valueOf(dName));
 

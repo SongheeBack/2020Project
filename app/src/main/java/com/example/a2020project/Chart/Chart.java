@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,7 @@ public class Chart extends Fragment {
         endD = null;
         endT = null;
 
+        Log.d("차트..", "Create");
         device_ID = ((MainActivity)getActivity()).getDevice_ID();
         dName = ((MainActivity)getActivity()).getDevice_Name();
 

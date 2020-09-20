@@ -66,15 +66,18 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             //Log.d(TAG, title + " - " + body);
             //String click_action = remoteMessage.getData().get("clickAction");
             sendNotification(title, body);
+
+            Intent intent = new Intent("MyData");
+            broadcaster.sendBroadcast(intent);
         }
 
-        Intent intent = new Intent("MyData");
+        //Intent intent = new Intent("MyData");
         /*
         intent.putExtra("phone", remoteMessage.getData().get("DriverPhone"));
         intent.putExtra("lat", remoteMessage.getData().get("DriverLatitude"));
         intent.putExtra("lng", remoteMessage.getData().get("DriverLongitude"));
         */
-        broadcaster.sendBroadcast(intent);
+        //broadcaster.sendBroadcast(intent);
 
         /*
         String title = remoteMessage.getData().get("title");
@@ -127,8 +130,6 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             notificationBuilder = new NotificationCompat.Builder(this,channelId)
                     .setSmallIcon(R.mipmap.ic_launcher_hana)
                     .setContentTitle(title)
-                    .setStyle(new NotificationCompat.BigTextStyle().setBigContentTitle(title)
-                            .bigText(body))
                     .setContentText(body)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
@@ -142,8 +143,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher_hana)
                     .setContentTitle(title)
-                    .setStyle(new NotificationCompat.BigTextStyle().setBigContentTitle(title)
-                            .bigText(body))
+                    .setContentText(body)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setVibrate(new long[]{1000, 1000})
