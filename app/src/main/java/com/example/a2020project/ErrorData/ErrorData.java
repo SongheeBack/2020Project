@@ -5,6 +5,8 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -262,6 +264,24 @@ public class ErrorData extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.error_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.goToMain:
+                goToMainActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void setTypeSpinner(String name){
 
         String id = null;
@@ -287,6 +307,14 @@ public class ErrorData extends AppCompatActivity {
             stAdapter.add(unitArr.get(i));
         }
 
+    }
+
+    public void goToMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("logIndexArray", logIndex);
+        intent.putExtra("deviceName", dName);
+        intent.putExtra("idIdxUnit", idIdxUnit);
+        startActivity(intent);
     }
 
     public void getErrData(String sD, String eD, String nameCh, final String typeCh){
