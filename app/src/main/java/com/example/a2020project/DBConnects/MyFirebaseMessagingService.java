@@ -25,6 +25,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
+import com.example.a2020project.LoginActivity;
 import com.example.a2020project.MainActivity;
 import com.example.a2020project.R;
 import com.google.firebase.messaging.RemoteMessage;
@@ -68,6 +69,8 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             sendNotification(title, body);
 
             Intent intent = new Intent("MyData");
+            intent.putExtra("title",title);
+            intent.putExtra("body",body);
             broadcaster.sendBroadcast(intent);
         }
 
@@ -98,7 +101,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         }
         //전달된 액티비티에 따라 분기하여 해당 액티비티를 오픈하도록 한다.
         Intent intent;
-        intent = new Intent(this, MainActivity.class);
+        intent = new Intent(this, LoginActivity.class);
 
         //번들에 수신한 메세지를 담아서 메인액티비티로 넘겨 보자.
         Bundle bundle = new Bundle();
@@ -129,8 +132,8 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             manager.createNotificationChannel(channel);
             notificationBuilder = new NotificationCompat.Builder(this,channelId)
                     .setSmallIcon(R.mipmap.ic_launcher_hana)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                     .setContentTitle(title)
-                    .setContentText(body)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setVibrate(new long[]{1000, 1000})
@@ -143,7 +146,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher_hana)
                     .setContentTitle(title)
-                    .setContentText(body)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setVibrate(new long[]{1000, 1000})
@@ -152,7 +155,6 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
         }
-
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -166,8 +168,6 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         String token;
         token = s;
         /*
-
-
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -182,7 +182,6 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
                     }
                 });
-
          */
         // 생성등록된 토큰을 개인 앱서버에 보내 저장해 두었다가 추가 뭔가를 하고 싶으면 할 수 있도록 한다.
         //Log.d("test_onnewtoken", "Refreshed token: " + token[0]);

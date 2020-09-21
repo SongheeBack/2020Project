@@ -233,33 +233,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                                 cnt++;
                             }
-                        /*getDName(id, length);
-                            DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse() {
-                                @Override
-                                public void processFinish(String result) {
-                                    //Log.d("Login/getDName 되나...: ", id+"/"+result);
-
-                                    String name;
-                                    try {
-                                        JSONArray restArr = new JSONArray(result);
-                                        for (int i = 0; i < restArr.length(); i++) {
-
-                                            JSONArray item = restArr.getJSONArray(i);
-                                            name = item.getString(0);
-                                            dName.put(id, name);
-
-                                            if (cnt == length) {
-                                                comArrayList(hashMap_idIdx);
-                                                //Log.d("length_cnt: ", String.valueOf(cnt));
-                                            } else {
-                                                cnt++;
-                                            }
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");*/
                     }
                     else{
                         //Log.d("res: ", res);
@@ -272,33 +245,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                                 cnt++;
                             }
-                        //getDName(id, length);
-                        /*DBConnect.GetData getDName = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
-                                @Override
-                                public void processFinish(String result) {
-                                    //Log.d("Login/getDName 되나...: ", id+"/"+result);
-
-                                    String name;
-
-                                    try {
-                                        JSONArray restArr = new JSONArray(result);
-                                        for(int i=0;i<restArr.length();i++){
-
-                                            JSONArray item = restArr.getJSONArray(i);
-                                            name = item.getString(0);
-                                            dName.put(id, name);
-
-
-                                            if(cnt == length){
-                                                comArrayList(hashMap_idIdx);
-                                                //Log.d("length_cnt: ", String.valueOf(cnt));
-                                            }
-                                            else { cnt++; } }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).execute("SELECT device_name FROM device WHERE device_ID = " + '"' + id + '"', "1");*/
                     }
                 }
             }).execute("SELECT DISTINCT data_idx FROM datainfo WHERE device_ID = " + '"' + id + '"', "1");
@@ -332,9 +278,6 @@ public class LoginActivity extends AppCompatActivity {
                 //Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
                 final String key = keyset.get(i);
                 String Idx = str.get(keyset.get(i));
-                //final int IdxCnt = Integer.parseInt(hashMap_idNumOfData.get(i));
-               // Log.d("numofData: ", String.valueOf(IdxCnt));
-                //Log.d("Idx: ", Idx);
 
                 try {
                     JSONArray idxArr = new JSONArray(Idx);
@@ -381,14 +324,10 @@ public class LoginActivity extends AppCompatActivity {
                                     else {
                                         cnt_2++;
                                     }
-
                                 }
                             }
                         }).execute("select data_unit from datainfo where device_ID = " + '"' + key + '"' + " and data_idx = " + '"' + idx + '"', "1");
                     }
-                    /*hashMap_idIdxUnit.put(key, map);
-                    Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
-                    map.clear();*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
