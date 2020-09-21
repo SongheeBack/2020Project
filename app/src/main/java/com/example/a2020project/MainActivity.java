@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> logIndex = new ArrayList<>();
     public HashMap<String, String> dName = new HashMap<>();
     public HashMap<String,HashMap<String,String>> idIdxUnit = new HashMap<>();
+
+    private Context m_Context;
+    private Activity mActivity;
 
     int tabP;
     TabAdapter tabAdapter;
@@ -128,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             String body = String.valueOf(bundle.getString("body"));
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("이상 데이터 발생").setMessage("오류데이터를 확인하세요.");
+            builder.setTitle(title).setMessage(body);
             builder.setPositiveButton("닫기", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id)
@@ -189,18 +193,6 @@ public class MainActivity extends AppCompatActivity {
             device_ID.add(key);
             //Log.d("hashMap Key : ", key);
 
-            /*Set set = str.entrySet();
-            Iterator iterator = set.iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<String, String> entry = (Map.Entry) iterator.next();
-
-                String key = (String) entry.getKey();
-                device_ID.add(key);
-                /*String value = (String) entry.getValue();
-                log_Index.add(value);
-                Log.d("hashMap Key : ", key);
-                //Log.d("hashMap Value : ", String.valueOf(value));
-            }*/
         }
         //Log.d("리스트~~~~~~~id: ", device_ID.toString());
 
@@ -308,6 +300,11 @@ public class MainActivity extends AppCompatActivity {
         logCnt = str.size();
 
         return logCnt;
+    }
+
+    public int getTapPage()
+    {
+        return tabP;
     }
 
 }

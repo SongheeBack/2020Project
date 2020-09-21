@@ -1,5 +1,6 @@
 package com.example.a2020project.monitor;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -37,8 +38,12 @@ public class Monitor extends Fragment {
 
     String value; // 최종 데이터
     int cnt_check1;
+    int cnt_check3;
     //int cnt_check2; // log_index size
+
     HashMap<String, String> dName = new HashMap<>();
+
+    MainActivity mActivity;
 
     public Monitor() {
         // Required empty public constructor
@@ -53,6 +58,7 @@ public class Monitor extends Fragment {
 
         // Adapter 생성
         mAdapter = new MonitorListviewAdapter();
+        mActivity = (MainActivity)getActivity();
 
         //dName.clear();
         dName = ((MainActivity)getActivity()).getDevice_Name();
@@ -60,6 +66,7 @@ public class Monitor extends Fragment {
         //id_check = null;
         value = null;
         cnt_check1 = 0;
+        cnt_check3 = 0;
 
         // 리스트뷰 참조 및 Adapter달기
         listview = view.findViewById(R.id.monitorListview);
@@ -119,11 +126,11 @@ public class Monitor extends Fragment {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                /*FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.detach(Monitor.this).attach(Monitor.this).commit();*/
+
+                if(mActivity != null)
                 doMonitor();
 
-                refreshHandler.postDelayed(this, 4 * 1000);
+                refreshHandler.postDelayed(this, 2 * 1000);
             }
         };
         refreshHandler.postDelayed(runnable, 3 * 1000);
@@ -181,8 +188,23 @@ public class Monitor extends Fragment {
                     }
                 }).execute("SELECT DISTINCT log_date from log WHERE log_index = "+ '"' + logindex + '"' +" and device_id = " + '"' + finalDeviceId + '"' +" ORDER BY log_date DESC LIMIT 1", "1");*/
             }
-
         }
+    }
+
+    @Override
+    public void onAttach(Context context)
+    {
+
+        if(context instanceof MainActivity)
+            mActivity = (MainActivity)context;
+        super.onAttach(context);
+    }
+    @Override
+    public void onDetach()
+    {
+        mActivity = null;
+
+        super.onDetach();
     }
 
     @Override
@@ -198,6 +220,8 @@ public class Monitor extends Fragment {
                 //Log.d("dbMonitor1되나...: ",  finalDeviceId + " / " + logindex + " / "+result);
 
                 if(result.equals("[]")){
+                    Log.d("cnt3: ", String.valueOf(cnt_check3));
+                    cnt_check3++;
                     showResult_null(deviceId, "조회할 수 있는 데이터가 없습니다.");
                 }
                 else{
@@ -295,6 +319,7 @@ public class Monitor extends Fragment {
 
         if (cnt_check1 == cnt_check2) {
 
+            mAdapter.notifyDataSetChanged();
             mAdapter.addItem(name, value);
 
             //Log.d("value, cnt: ", value + ", " + "1 = " + cnt_check1 + ", 2 = " + cnt_check2);
@@ -312,16 +337,16 @@ public class Monitor extends Fragment {
         //Log.d("cnt_ch2: ", String.valueOf(cnt_check2));
         //String addUnit = data;
         //Log.d("name + addUnit : ", name + ", " + addUnit);
-        mAdapter.addItem(name, data);
+        //mAdapter.addItem(name, data);
 
-        cnt_check1++;
+        //cnt_check3++;
+        Log.d("cnt3 + cnt2: ", String.valueOf(cnt_check3) + ", " + String.valueOf(cnt_check2));
+        if (cnt_check3 == cnt_check2) {
 
-        if (cnt_check1 == cnt_check2) {
-
+            mAdapter.notifyDataSetChanged();
             mAdapter.addItem(name, data);
-
-            //Log.d("value, cnt: ", value + ", " + "1 = " + cnt_check1 + ", 2 = " + cnt_check2);
-            cnt_check1 = 0;
+            Log.d("value, cnt: ", data + ", " + "3 = " + cnt_check3 + ", 2 = " + cnt_check2);
+            cnt_check3 = 0;
             //value = null;
         }
 
