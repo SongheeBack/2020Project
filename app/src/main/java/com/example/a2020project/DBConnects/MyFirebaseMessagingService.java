@@ -1,7 +1,6 @@
 package com.example.a2020project.DBConnects;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,22 +9,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-
-import com.example.a2020project.LoginActivity;
+import com.example.a2020project.ForLogin.LoginActivity;
 import com.example.a2020project.MainActivity;
 import com.example.a2020project.R;
 import com.google.firebase.messaging.RemoteMessage;
@@ -100,8 +93,10 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             title = "공지사항"; //기본제목을 적어 주자.
         }
         //전달된 액티비티에 따라 분기하여 해당 액티비티를 오픈하도록 한다.
-        Intent intent;
-        intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent();
+        if(MainActivity.b != true){
+            intent = new Intent(this, LoginActivity.class);
+        }
 
         //번들에 수신한 메세지를 담아서 메인액티비티로 넘겨 보자.
         Bundle bundle = new Bundle();

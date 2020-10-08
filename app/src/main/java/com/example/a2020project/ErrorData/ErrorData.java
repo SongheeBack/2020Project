@@ -3,6 +3,7 @@ package com.example.a2020project.ErrorData;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -62,8 +63,8 @@ public class ErrorData extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.error_data);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFFFFFF));
 
-        Intent intent = this.getIntent();
 
         logIndex.clear();
         dName.clear();
@@ -111,6 +112,8 @@ public class ErrorData extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         tv[0].setText(cal.get(Calendar.YEAR) +"-"+ (cal.get(Calendar.MONTH)+1) +"-"+ cal.get(Calendar.DATE));
         tv[1].setText(cal.get(Calendar.YEAR) +"-"+ (cal.get(Calendar.MONTH)+1) +"-"+ cal.get(Calendar.DATE));
+        tv[3].setText(cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":00");
+        endTime.append(cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":00");
 
         tv[0].setOnClickListener(new View.OnClickListener(){
             @Override

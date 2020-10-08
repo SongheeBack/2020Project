@@ -14,32 +14,19 @@
         android:orientation="vertical"
         android:layout_marginBottom="40dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:text="모든 기기의 최근 데이터를 조회합니다."
+            android:background="@drawable/tv_style"
+            android:textColor="#666666"
+            android:textStyle="bold"
+            android:textSize="16dp" />
 
-            <TextView
-                android:layout_width="286dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:text="각 기기의 최근 데이터 조회"
-                android:textColor="#666666"
-                android:textSize="16dp" />
-
-            <ImageView
-                android:id="@+id/refresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/reload" />
-
-        </LinearLayout>
 
         <ListView
             android:id="@+id/monitorListview"

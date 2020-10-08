@@ -12,13 +12,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.a2020project.ErrorData.ErrorData;
+import com.example.a2020project.ForLogin.LoginActivity;
+import com.example.a2020project.ForLogin.SaveSharedPreference;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
@@ -41,11 +46,15 @@ public class MainActivity extends AppCompatActivity {
 
     int tabP;
     TabAdapter tabAdapter;
+    public static boolean b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFFFFFF));
+
+        b = true;
 
         mContext = this;
 
@@ -122,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        b = false;
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -141,13 +151,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            /*builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
                     Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
@@ -198,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
         return device_ID;
     }
+
 
     public HashMap<String, String> getDevice_Name(){
         //Log.d("메인 getDevice_Name ::", "1");

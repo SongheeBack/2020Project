@@ -153,9 +153,12 @@ public class Log extends Fragment {
         tv[2] = view.findViewById(R.id.editTextTime1);
         tv[3] = view.findViewById(R.id.editTextTime2);
 
+
         Calendar cal = Calendar.getInstance();
         tv[0].setText(cal.get(Calendar.YEAR) +"-"+ (cal.get(Calendar.MONTH)+1) +"-"+ cal.get(Calendar.DATE));
         tv[1].setText(cal.get(Calendar.YEAR) +"-"+ (cal.get(Calendar.MONTH)+1) +"-"+ cal.get(Calendar.DATE));
+        tv[3].setText(cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":00");
+        endTime.append(cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":00");
 
         tv[0].setOnClickListener(new View.OnClickListener(){
             @Override
@@ -336,7 +339,7 @@ public class Log extends Fragment {
                 }
             }).execute("select DISTINCT date_format(log_date,'%y-%m-%d %H:%i:%s') as log_date, log_value from log " +
                     "where device_ID = " + '"' + id + '"' + " and log_index = " + '"' + idx + '"' +
-                    " and log_date between "+ '"' + sD + '"' + " and" + '"' + eD + '"' + " order by log_date desc", "2");
+                    " and log_date between "+ '"' + sD + '"' + " and" + '"' + eD + '"' + " order by log_date asc", "2");
 
         }
 

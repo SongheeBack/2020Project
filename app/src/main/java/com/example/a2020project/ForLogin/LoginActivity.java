@@ -1,9 +1,13 @@
-package com.example.a2020project;
+package com.example.a2020project.ForLogin;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -11,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.a2020project.DBConnects.DBConnect;
+import com.example.a2020project.MainActivity;
+import com.example.a2020project.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     String ID, PW;
     String user_level;
     String user_exist;
-    String device_ID_string;
     String ERROR = "result error";
     String NOT_EXIST_INDEX = "로그 인덱스 없음";
 
@@ -46,11 +51,16 @@ public class LoginActivity extends AppCompatActivity {
     HashMap<String,HashMap<String,String>> hashMap_idIdxUnit = new HashMap<>();
     HashMap<String,String> dName = new HashMap<>();
 
+    CheckBox checkBox;
+    //SharedPreferences setting;
+    //SharedPreferences.Editor editor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFFFFFF));
 
         deviceID.clear();
         hashMap_idIdx.clear();
@@ -58,11 +68,27 @@ public class LoginActivity extends AppCompatActivity {
         dName.clear();
         hashMap_idNumOfData.clear();
 
+        /*ID = userId.getText().toString();
+        PW = userPw.getText().toString();*/
+
         ii = 0;
 
         userId = findViewById(R.id.loginId);
         userPw = findViewById(R.id.loginPassword);
         loginBtn = findViewById(R.id.loginButton);
+
+        checkBox = findViewById(R.id.checkBox);
+        //setting = getSharedPreferences("setting", 0);
+        //editor= setting.edit();
+
+        if(SaveSharedPreference.getBoolean(LoginActivity.this, "Auto_Login_Enabled")){
+            /*userId.setText(setting.getString("ID", ""));
+            userPw.setText(setting.getString("PW", ""));*/
+            userId.setText(SaveSharedPreference.getUserID(LoginActivity.this));
+            userPw.setText(SaveSharedPreference.getUserPW(LoginActivity.this));
+            checkBox.setChecked(true);
+        }
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                     //Log.d("아이디 비번 확인: ", ID + " / "+ PW);
                 }
 
@@ -103,15 +128,28 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                // TODO Auto-generated method stub
+                if (isChecked) {
+                    String ID = userId.getText().toString();
+                    String PW = userPw.getText().toString();
+                    SaveSharedPreference.setUserInform(LoginActivity.this, ID, PW, true);
+                } else {
+                    SaveSharedPreference.clearUserInform(LoginActivity.this);
+                }
+            }
+        });
+
     }
 
     public void runActivity(){
 
-        //Log.d("runAct:: ", "되나?");
-        //Log.d("HashMap:: ", String.valueOf(hashMap_idIdxUnit));
-
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        //intent.putExtra("device_ID", device_ID_string);
         intent.putExtra("logIndexArray", cArrayList);
         intent.putExtra("deviceName", dName);
         intent.putExtra("idIdxUnit", hashMap_idIdxUnit);

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
-    tools:context=".LoginActivity">
+    tools:context=".ForLogin.LoginActivity">
 
     <EditText
         android:id="@+id/loginId"
@@ -13,7 +13,7 @@
         android:layout_width="240dp"
         android:layout_height="52dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="332dp"
+        android:layout_marginTop="300dp"
         android:layout_marginEnd="5dp"
         android:ems="10"
         android:hint="ID"
@@ -29,7 +29,7 @@
         android:layout_width="240dp"
         android:layout_height="52dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="5dp"
         android:ems="10"
         android:hint="PASSWORD"
@@ -44,10 +44,9 @@
         android:layout_width="220dp"
         android:layout_height="43dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginPassword"
         app:srcCompat="@drawable/login" />
@@ -58,8 +57,21 @@
         android:layout_height="87dp"
         app:layout_constraintBottom_toTopOf="@+id/loginId"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.558"
         app:srcCompat="@drawable/hanhana" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그인 정보 저장"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

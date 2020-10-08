@@ -7,11 +7,15 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/tv_style"
+        android:padding="10dp"
+        android:text="이상 값 조회"
         android:textColor="#000000"
-        android:text="알람 히스토리"
         android:textSize="16dp"
         android:textStyle="bold" />
 
@@ -102,6 +106,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
+                    android:padding="3dp"
+                    android:background="@drawable/tv_style"
+                    android:layout_marginRight="10dp"
                     android:textSize="13dp"
                     android:layout_weight="1"
                     android:text="조회 시작 시점" />
@@ -137,6 +144,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="3dp"
+                    android:background="@drawable/tv_style"
                     android:textSize="13dp"
                     android:text="조회 종료 시점" />
                 <EditText
@@ -145,6 +155,7 @@
                     android:focusableInTouchMode="false"
                     android:textColor="#666666"
                     android:id="@+id/editTextDate2"
+
                     android:textSize="13dp"
                     android:hint="YYYY-MM-DD"/>
                 <EditText
@@ -164,6 +175,8 @@
             android:id="@+id/errorBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bt_style"
             android:textSize="13dp"
             android:text="조회" />
 

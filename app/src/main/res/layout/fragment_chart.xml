@@ -101,7 +101,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
                             android:textSize="13dp"
+                            android:padding="3dp"
+                            android:background="@drawable/tv_style"
                             android:layout_weight="1"
                             android:text="조회 시작 시점" />
 
@@ -137,7 +140,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:padding="3dp"
                             android:textSize="13dp"
+                            android:background="@drawable/tv_style"
                             android:text="조회 종료 시점" />
                         <EditText
                             android:layout_width="wrap_content"
@@ -165,6 +171,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/bt_style"
                     android:text="조회" />
 
             </LinearLayout>
@@ -179,7 +187,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="x축: 데이터 개수 / y축 데이터 수치"
+
+                    android:text="x축: 데이터 개수 / y축: 데이터 수치"
                     android:textSize="13dp"
                     android:textStyle="bold" />
 

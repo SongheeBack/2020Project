@@ -6,8 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionBarTheme">@color/actBase</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/black</item>
+        <item name="actionBarTheme">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/actBase</item>
     </style>
 
     <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">

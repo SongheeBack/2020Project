@@ -32,16 +32,15 @@ import java.util.TimerTask;
  */
 public class Monitor extends Fragment {
 
-    ImageView refresh;
     ListView listview;
     MonitorListviewAdapter mAdapter;
 
     String value; // 최종 데이터
     int cnt_check1;
     int cnt_check3;
-    //int cnt_check2; // log_index size
 
     HashMap<String, String> dName = new HashMap<>();
+    HashMap<String, Integer> NameCnt = new HashMap<>();
 
     MainActivity mActivity;
 
@@ -70,8 +69,8 @@ public class Monitor extends Fragment {
 
         // 리스트뷰 참조 및 Adapter달기
         listview = view.findViewById(R.id.monitorListview);
-        refresh = view.findViewById(R.id.refresh);
 
+        makeListView();
         doMonitor();
 
         /*ArrayList<String> device_ID = new ArrayList<>();
@@ -127,10 +126,11 @@ public class Monitor extends Fragment {
             @Override
             public void run() {
 
-                if(mActivity != null)
-                doMonitor();
+                if(mActivity != null){
+                    doMonitor();
+                }
 
-                refreshHandler.postDelayed(this, 2 * 1000);
+                refreshHandler.postDelayed(this, 1 * 1000);
             }
         };
         refreshHandler.postDelayed(runnable, 3 * 1000);
@@ -151,9 +151,12 @@ public class Monitor extends Fragment {
     }
 
     public void doMonitor(){
-        mAdapter.clear();
+        //mAdapter.clear();
+        mAdapter.notifyDataSetChanged();
         ArrayList<String> device_ID = new ArrayList<>();
         device_ID = ((MainActivity)getActivity()).getDevice_ID();
+
+        if(mActivity == null) { return; }
 
         for(int i = 0; i < device_ID.size(); i++){
             //int i_check = i;
@@ -161,6 +164,7 @@ public class Monitor extends Fragment {
             deviceId = device_ID.get(i);
 
             String index = null;
+            if(mActivity == null) { return; }
             index = ((MainActivity)getActivity()).getLog_Index(deviceId);
             //Log.d("Monitor!!!!!!!!!:: ", deviceId + " / "+index);
 
@@ -213,6 +217,20 @@ public class Monitor extends Fragment {
 
     }
 
+    public void makeListView(){
+        if(mActivity == null) { return; }
+        //int cnt = ((MainActivity)getActivity()).getIDCnt();
+
+        ArrayList<String> device_ID = ((MainActivity)getActivity()).getDevice_ID();
+        int IDCnt = device_ID.size();
+        for (int i = 0; i < IDCnt; i++){
+            mAdapter.addItem(device_ID.get(i), "");
+            NameCnt.put(device_ID.get(i), i);
+        }
+        mAdapter.notifyDataSetChanged();
+        listview.setAdapter(mAdapter);
+    }
+
     public void getLogData(final String logindex, final String deviceId){
         DBConnect.GetData dbMonitor1 = (DBConnect.GetData) new DBConnect.GetData(new DBConnect.GetData.AsyncResponse(){
             @Override
@@ -220,7 +238,7 @@ public class Monitor extends Fragment {
                 //Log.d("dbMonitor1되나...: ",  finalDeviceId + " / " + logindex + " / "+result);
 
                 if(result.equals("[]")){
-                    Log.d("cnt3: ", String.valueOf(cnt_check3));
+                    //Log.d("cnt3: ", String.valueOf(cnt_check3));
                     cnt_check3++;
                     showResult_null(deviceId, "조회할 수 있는 데이터가 없습니다.");
                 }
@@ -294,6 +312,7 @@ public class Monitor extends Fragment {
     private void showResult(String id, String idx, String data){
 
         //dName.clear();
+        if(mActivity == null) { return; }
 
         Float cData = Float.parseFloat(data);
         String data_2 = String.valueOf(Math.round(cData*100)/100.0);
@@ -320,37 +339,36 @@ public class Monitor extends Fragment {
         if (cnt_check1 == cnt_check2) {
 
             mAdapter.notifyDataSetChanged();
-            mAdapter.addItem(name, value);
+            //mAdapter.addItem(name, value);
+            mAdapter.setdata(NameCnt.get(id), value);
 
-            //Log.d("value, cnt: ", value + ", " + "1 = " + cnt_check1 + ", 2 = " + cnt_check2);
+            //Log.d("Result: value, cnt: ", value + ", " + "1 = " + cnt_check1 + ", 2 = " + cnt_check2);
             cnt_check1 = 0;
             value = null;
         }
-        listview.setAdapter(mAdapter);
-
+        //listview.setAdapter(mAdapter);
     }
 
     public void showResult_null(String id, String data){
         String name = dName.get(id);
 
+        if(mActivity == null) { return; }
         int cnt_check2 = ((MainActivity)getActivity()).getLogIndex_Cnt(id);
+
         //Log.d("cnt_ch2: ", String.valueOf(cnt_check2));
         //String addUnit = data;
         //Log.d("name + addUnit : ", name + ", " + addUnit);
         //mAdapter.addItem(name, data);
 
-        //cnt_check3++;
         Log.d("cnt3 + cnt2: ", String.valueOf(cnt_check3) + ", " + String.valueOf(cnt_check2));
         if (cnt_check3 == cnt_check2) {
 
             mAdapter.notifyDataSetChanged();
-            mAdapter.addItem(name, data);
-            Log.d("value, cnt: ", data + ", " + "3 = " + cnt_check3 + ", 2 = " + cnt_check2);
+            mAdapter.setdata(NameCnt.get(id), data);
+            Log.d("Result: value, cnt: ", data + ", " + "3 = " + cnt_check3 + ", 2 = " + cnt_check2);
             cnt_check3 = 0;
-            //value = null;
         }
-
-        listview.setAdapter(mAdapter);
+        //listview.setAdapter(mAdapter);
     }
 
 }
